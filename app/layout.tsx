@@ -8,6 +8,7 @@ import ScrollProgress from "@/components/layout/ScrollProgress";
 import CustomCursor from "@/components/layout/CustomCursor";
 import CommandPalette from "@/components/shared/CommandPalette";
 import DeveloperMode from "@/components/shared/DeveloperMode";
+import Preloader from "@/components/shared/Preloader";
 import Footer from "@/components/layout/Footer";
 import "./globals.css";
 
@@ -29,18 +30,21 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col">
         <AnimationProvider>
           <LenisProvider>
-            <ScrollProgress />
-            <Navigation />
-            <main className="flex-1">{children}</main>
-            <Footer />
-            <CustomCursor />
-            <CommandPalette />
-            <DeveloperMode />
-            {/* Noise overlay for texture */}
-            <div className="noise-overlay" aria-hidden="true" />
+            <Preloader>
+              <ScrollProgress />
+              <Navigation />
+              <main className="flex-1">{children}</main>
+              <Footer />
+              <CustomCursor />
+              <CommandPalette />
+              <DeveloperMode />
+              {/* Noise overlay for texture */}
+              <div className="noise-overlay" aria-hidden="true" />
+            </Preloader>
           </LenisProvider>
         </AnimationProvider>
       </body>
     </html>
   );
 }
+
