@@ -1,73 +1,94 @@
 <div align="center">
-  <h1>Abdelrahman Samy Ali — Portfolio</h1>
+  <h1>Abdelrahman Samy Ali — Portfolio v2</h1>
   <p><b>Creative Frontend Developer | Next.js & TypeScript</b></p>
 
   <p>
     <a href="https://abdelrahman-samy-portfolio.vercel.app/" target="_blank">
-      <img src="https://img.shields.io/badge/View_Live-151515.svg?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Portfolio">
+      <img src="https://img.shields.io/badge/Portfolio-View_Live-151515.svg?style=for-the-badge&logo=vercel&logoColor=white" alt="Portfolio">
     </a>
     <a href="https://linkedin.com/in/abdelrahman-samy-dev/" target="_blank">
-      <img src="https://img.shields.io/badge/Connect-0A66C2.svg?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
+      <img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2.svg?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
     </a>
     <a href="mailto:abdelrahman.samy.dev@outlook.com">
-      <img src="https://img.shields.io/badge/Contact_Me-0078D4.svg?style=for-the-badge&logo=microsoftoutlook&logoColor=white" alt="Email">
+      <img src="https://img.shields.io/badge/Email-Contact_Me-0078D4.svg?style=for-the-badge&logo=microsoftoutlook&logoColor=white" alt="Email">
     </a>
   </p>
 </div>
 
 <br />
 
-## About The Project
+## About
 
-A modern, highly interactive, and performance-optimized personal portfolio built to showcase my work, experience, and engineering principles. The project features a cinematic dark theme, smooth scroll mechanics, advanced scroll-triggered animations, and a responsive bento-grid layout.
+A modern, cinematic portfolio website built to showcase my work, engineering philosophy, and technical experience. Features a dark theme, scroll-driven frame animation hero, smooth scroll mechanics, GSAP-powered entrance animations, and a fully responsive bento-grid layout.
 
-Designed and developed with a focus on **UI/UX excellence**, **accessibility**, and **clean code architecture**.
+Designed and developed with a focus on **performance**, **UI/UX excellence**, and **clean architecture**.
 
 ---
 
-## Tech Stack & Features
+## Tech Stack
 
-| Category | Technologies |
+<div align="center">
+  <img src="https://img.shields.io/badge/Next.js_15-000000?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js" />
+  <img src="https://img.shields.io/badge/React_19-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" />
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" />
+  <img src="https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white" alt="Framer Motion" />
+  <img src="https://img.shields.io/badge/GSAP-88CE02?style=for-the-badge&logo=greensock&logoColor=black" alt="GSAP" />
+  <img src="https://img.shields.io/badge/Lenis-000000?style=for-the-badge&logoColor=white" alt="Lenis" />
+  <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel" />
+</div>
+
+---
+
+## Key Features
+
+| Feature | Description |
 |---|---|
-| **Core** | Next.js 15 (App Router), React 19, TypeScript |
-| **Styling** | Tailwind CSS v4, Global CSS Variables |
-| **Animations** | Framer Motion, GSAP (ScrollTrigger) |
-| **Experience** | Lenis (Smooth Scrolling), Lucide React (Icons) |
+| **Cinematic Hero** | 96-frame scroll-driven animation sequence with a full-page preloader |
+| **Smooth Scrolling** | Lenis-powered smooth scroll for a premium browsing experience |
+| **Scroll Animations** | GSAP ScrollTrigger + Framer Motion hybrid animation system |
+| **Command Palette** | Keyboard-navigable command menu (Ctrl+K) for quick navigation |
+| **Bento Grid** | Modern layout architecture for Tech Stack and Projects sections |
+| **Responsive** | Fluid typography and meticulously crafted layouts for all viewports |
+| **Case Studies** | Dedicated project pages with architecture breakdowns and engineering decisions |
 
-### Key Features
-- **Performance First**: Server-Side Rendering (SSR) and optimized asset delivery.
-- **Cinematic Animations**: Complex entrance and scroll-linked animations using a hybrid of Framer Motion and GSAP.
-- **Bento Grid Architecture**: A modern layout approach for the Tech Stack and Featured Projects sections.
-- **Command Palette**: A fully accessible, keyboard-navigable command menu (`Ctrl+K`) for quick navigation.
-- **Responsive Design**: Fluid typography and meticulously crafted layouts for all viewport sizes.
+---
+
+## Project Structure
+
+```
+├── app/                  # Next.js App Router pages
+│   ├── layout.tsx        # Root layout with providers
+│   ├── page.tsx          # Home page
+│   └── work/[slug]/      # Dynamic case study pages
+├── components/
+│   ├── layout/           # Navigation, Footer, ScrollProgress, CustomCursor
+│   ├── sections/         # Hero, About, Experience, TechStack, Contact, etc.
+│   └── shared/           # Preloader, CommandPalette, SectionHeader
+├── animations/           # GSAP scroll animations and Framer Motion variants
+├── constants/            # Static data (projects, skills, experience, navigation)
+├── hooks/                # Custom hooks (magnetic effect, scroll direction, etc.)
+├── providers/            # Lenis and Animation context providers
+└── types/                # TypeScript interfaces
+```
 
 ---
 
 ## Local Development
 
-To run this project locally, follow these steps:
+```bash
+# Clone
+git clone https://github.com/abdelrahman-samy-dev/abdelrahman-samy-portfolio.git
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/abdelrahman-samy-dev/abdelrahman-samy-portfolio.git
-   ```
+# Install
+cd abdelrahman-samy-portfolio
+npm install
 
-2. **Navigate to the directory**
-   ```bash
-   cd abdelrahman-samy-portfolio
-   ```
+# Dev server
+npm run dev
+```
 
-3. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-4. **Start the development server**
-   ```bash
-   npm run dev
-   ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view in browser.
 
 ---
 
@@ -78,6 +99,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - **GitHub:** [@abdelrahman-samy-dev](https://github.com/abdelrahman-samy-dev)
 
 ---
+
 <div align="center">
-  <p>Built with Next.js & TypeScript by Abdelrahman Samy Ali.</p>
+  <sub>Built with Next.js 15 & TypeScript by Abdelrahman Samy Ali.</sub>
 </div>
