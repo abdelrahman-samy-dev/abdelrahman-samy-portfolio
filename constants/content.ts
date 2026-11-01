@@ -21,7 +21,7 @@ function spaceWaw<T>(value: T): T {
 /** Projects with their text in the requested language (English is the source) */
 export function getProjects(locale: Locale): Project[] {
   if (locale === "en") return projects;
-  return projects.map((p) => ({ ...p, ...spaceWaw(projectsAr[p.slug]) }));
+  return projects.map((p) => ({ ...p, ...spaceWaw(projectsAr[p.slug]), thumbnail: p.thumbnailAr ?? p.thumbnail }));
 }
 
 export function getProject(locale: Locale, slug: string): Project | undefined {

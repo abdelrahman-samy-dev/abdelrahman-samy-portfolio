@@ -18,6 +18,8 @@ const labelKey: Record<string, keyof ReturnType<typeof useLocale>["t"]["nav"]> =
 export default function Navigation() {
   const [active, setActive] = useState("");
   const [mounted, setMounted] = useState(false);
+  // On the home page the dock waits until the hero is scrolled past, so it never covers the name
+  const [pastHero, setPastHero] = useState(false);
   const { t, href } = useLocale();
   const pathname = usePathname();
   const router = useRouter();
@@ -50,13 +52,22 @@ export default function Navigation() {
     document.getElementById(hash.replace("#", ""))?.scrollIntoView({ behavior: "smooth" });
   }, [onHome, router, href]);
 
+  useEffect(() => {
+    const onScroll = () => setPastHero(window.scrollY > window.innerHeight * 0.6);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   if (!mounted) return null;
+  const visible = !onHome || pastHero;
 
   return (
     <motion.div
       initial={{ y: 100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, delay: 1, ease: [0.16, 1, 0.3, 1] }}
+      animate={visible ? { y: 0, opacity: 1 } : { y: 100, opacity: 0 }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      inert={!visible}
       className="fixed bottom-4 md:bottom-8 inset-x-0 z-50 px-3 pointer-events-none flex justify-center"
     >
       <nav

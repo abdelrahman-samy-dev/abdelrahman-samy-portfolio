@@ -181,6 +181,28 @@ export default function CaseStudyContent({ project }: CaseStudyContentProps) {
           </motion.div>
         )}
 
+        {/* Product screens — phone captures get a device frame */}
+        {project.screenshots.length > 0 && (
+          <div className="mb-14">
+            <h2 className="text-xl font-semibold mb-6" style={{ color: "var(--text-primary)" }}>{c.screens}</h2>
+            <div className="flex flex-col sm:flex-row items-center sm:items-end gap-6">
+              {project.screenshots.map((src) =>
+                src.includes("mobile") ? (
+                  <PhoneMockup key={src} src={src} alt={`${project.title} — ${t.work.mobileScreenshot}`} className="relative w-[46%] sm:w-[26%] max-w-[200px] shrink-0" />
+                ) : (
+                  <div
+                    key={src}
+                    className="relative w-full rounded-2xl overflow-hidden"
+                    style={{ aspectRatio: "16/10", border: "1px solid var(--border-subtle)", background: "var(--surface)" }}
+                  >
+                    <Image src={src} alt={`${project.title} — ${t.work.screenshot}`} fill className="object-cover object-top" sizes="(max-width: 768px) 100vw, 560px" />
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Bottom CTA */}
         <div className="pt-12 text-center" style={{ borderTop: "1px solid var(--border-subtle)" }}>
           <p className="text-sm mb-6" style={{ color: "var(--text-secondary)" }}>{c.cta}</p>

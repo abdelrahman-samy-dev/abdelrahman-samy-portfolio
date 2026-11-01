@@ -44,14 +44,16 @@ const en = {
   experience: {
     eyebrow: "Career Path",
     title: "Experience",
-    intro: "From freelance frontend work to full-stack and mobile engineering on real SaaS products. Tap a role for details.",
+    intro: "From freelance frontend work to full-stack and mobile engineering on real SaaS products.",
     present: "Present",
+    toggle: "Show or hide details",
   },
   principles: {
     eyebrow: "Principles",
     title: ["The Code", "Behind The Craft."],
     intro: "The principles that shape every line of code I write.",
     card: "Principle",
+    swipe: "Swipe",
     outro: ["Ready to see", "these in action?"],
     items: [
       { title: "Performance\nFirst", desc: "Every millisecond matters — in the browser, in the API and on the phone. I measure first, then fix: smaller bundles, lazy loading, indexed queries and local caching." },
@@ -111,6 +113,7 @@ const en = {
     highlights: "Highlights",
     decisions: "Engineering Decisions",
     lessons: "Lessons Learned",
+    screens: "Inside the product",
     cta: "Interested in working together?",
     ctaButton: "Get in Touch",
   },
@@ -177,14 +180,16 @@ const ar: Dictionary = {
   experience: {
     eyebrow: "المسار المهني",
     title: "الخبرة",
-    intro: "من العمل الحر في الواجهات الأمامية إلى هندسة الويب المتكامل والجوال في منتجات SaaS حقيقية. اضغط على أي وظيفة لعرض التفاصيل.",
+    intro: "من العمل الحر في الواجهات الأمامية إلى هندسة الويب المتكامل والجوال في منتجات SaaS حقيقية.",
     present: "الآن",
+    toggle: "إظهار التفاصيل أو إخفاؤها",
   },
   principles: {
     eyebrow: "المبادئ",
     title: ["الكود", "وراء الإتقان."],
     intro: "المبادئ التي تحكم كل سطر أكتبه.",
     card: "مبدأ",
+    swipe: "اسحب",
     outro: ["هل تريد أن ترى", "هذه المبادئ عمليًا؟"],
     items: [
       { title: "الأداء\nأولًا", desc: "كل جزء من الثانية مهم: في المتصفح وفي الخادم وعلى الهاتف. أقيس أولًا ثم أُصلح: حزم أصغر، وتحميل عند الحاجة، واستعلامات مفهرسة، وتخزين محلي." },
@@ -244,6 +249,7 @@ const ar: Dictionary = {
     highlights: "أبرز النقاط",
     decisions: "قرارات هندسية",
     lessons: "دروس مستفادة",
+    screens: "من داخل المنتج",
     cta: "مهتم بالعمل معًا؟",
     ctaButton: "تواصل معي",
   },

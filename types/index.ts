@@ -14,6 +14,8 @@ export interface Project {
   /** My role on the project, for team / company work */
   role?: string;
   thumbnail: string;
+  /** Cover for the Arabic site, when the image has text in it */
+  thumbnailAr?: string;
   /** Optional phone screenshot shown in a device frame next to the main image */
   mobileShot?: string;
   tags: string[];

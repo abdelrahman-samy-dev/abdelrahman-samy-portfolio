@@ -5,14 +5,25 @@ import { motion } from "motion/react";
 import { getExperiences } from "@/constants/content";
 import { useLocale } from "@/providers/LocaleProvider";
 import type { Experience } from "@/types";
-import { ArrowUpRight } from "lucide-react";
+import { Plus } from "lucide-react";
+import { useCanHover } from "@/hooks/useCanHover";
 import SectionHeader from "@/components/shared/SectionHeader";
 
-function ExperienceRow({ exp, index, present }: { exp: Experience; index: number; present: string }) {
+interface RowProps {
+  exp: Experience;
+  index: number;
+  present: string;
+  toggleLabel: string;
+}
+
+function ExperienceRow({ exp, index, present, toggleLabel }: RowProps) {
+  // Touch screens: every role is open, nothing to tap. Mouse: hover previews,
+  // click pins open (the current role starts pinned), and a + button says so.
+  const canHover = useCanHover();
   const [hovered, setHovered] = useState(false);
-  // Click / tap pins a row open — touch screens have no hover. The current role starts open.
   const [pinned, setPinned] = useState(index === 0);
-  const isHovered = hovered || pinned;
+  const isHovered = !canHover || hovered || pinned;
+  const toggle = () => setPinned((p) => !p);
 
   return (
     <motion.div
@@ -22,17 +33,8 @@ function ExperienceRow({ exp, index, present }: { exp: Experience; index: number
       transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      onClick={() => setPinned((p) => !p)}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          setPinned((p) => !p);
-        }
-      }}
-      role="button"
-      tabIndex={0}
-      aria-expanded={isHovered}
-      className="group relative border-t py-12 md:py-16 px-6 md:px-8 flex flex-col md:flex-row md:items-start gap-8 md:gap-16 cursor-pointer overflow-hidden"
+      onClick={canHover ? toggle : undefined}
+      className={`group relative border-t py-10 md:py-16 px-1 md:px-8 flex flex-col md:flex-row md:items-start gap-4 md:gap-16 overflow-hidden ${canHover ? "cursor-pointer" : ""}`}
       style={{ borderColor: "var(--border-subtle)" }}
     >
       {/* Background Hover Reveal Effect */}
@@ -41,14 +43,33 @@ function ExperienceRow({ exp, index, present }: { exp: Experience; index: number
         style={{ background: "rgba(255,255,255,0.02)" }}
       />
 
-      {/* Year */}
-      <div className="w-full md:w-1/4 shrink-0 relative z-10">
+      {/* Year (+ expand control on mouse devices) */}
+      <div className="w-full md:w-1/4 shrink-0 relative z-10 flex items-center justify-between md:block">
         <p
           className="text-xs font-mono tracking-widest uppercase transition-colors duration-500"
-          style={{ color: isHovered ? "var(--text-primary)" : "var(--text-tertiary)" }}
+          style={{ color: isHovered ? "var(--accent)" : "var(--text-tertiary)" }}
         >
           {exp.startDate} — {exp.endDate || present}
         </p>
+        {canHover && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              toggle();
+            }}
+            aria-expanded={isHovered}
+            aria-label={`${toggleLabel}: ${exp.role}`}
+            className="md:mt-6 w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-500 group-hover:border-[var(--accent-border)]"
+            style={{
+              borderColor: isHovered ? "var(--accent-border)" : "var(--border)",
+              background: isHovered ? "var(--accent-subtle)" : "transparent",
+              color: isHovered ? "var(--accent)" : "var(--text-secondary)",
+            }}
+          >
+            <Plus size={16} className="transition-transform duration-500" style={{ transform: pinned ? "rotate(45deg)" : "none" }} />
+          </button>
+        )}
       </div>
 
       {/* Content */}
@@ -58,10 +79,6 @@ function ExperienceRow({ exp, index, present }: { exp: Experience; index: number
           style={{ color: isHovered ? "var(--accent)" : "var(--text-primary)" }}
         >
           {exp.role}
-          <ArrowUpRight
-            size={36}
-            className="flip-rtl shrink-0 opacity-0 -translate-x-8 translate-y-8 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hidden md:block"
-          />
         </h3>
 
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-6">
@@ -148,7 +165,7 @@ export default function Experience() {
           {/* Scrolling Right Column */}
           <div className="w-full lg:w-3/4 flex flex-col">
             {getExperiences(locale).map((exp, i) => (
-              <ExperienceRow key={exp.id} exp={exp} index={i} present={e.present} />
+              <ExperienceRow key={exp.id} exp={exp} index={i} present={e.present} toggleLabel={e.toggle} />
             ))}
             {/* Final Bottom Border */}
             <div className="border-t w-full" style={{ borderColor: "var(--border-subtle)" }} />

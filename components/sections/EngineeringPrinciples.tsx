@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
+import { MoveHorizontal } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SectionHeader from "@/components/shared/SectionHeader";
@@ -8,11 +9,42 @@ import { useLocale } from "@/providers/LocaleProvider";
 
 gsap.registerPlugin(ScrollTrigger);
 
-
-
+/**
+ * Desktop: the section pins and the cards travel sideways with the scroll
+ * (right-to-left in English, left-to-right in Arabic), each card easing in
+ * and lighting up as it reaches the middle.
+ * Mobile: a plain swipeable row with snap points — no pinning, no hijacked scroll.
+ */
 export default function EngineeringPrinciples() {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
+  const rowRef = useRef<HTMLDivElement>(null);
+  // Phone carousel: which card is centred (drives the dots and the highlight)
+  const [active, setActive] = useState(0);
+
+  const onRowScroll = useCallback(() => {
+    const row = rowRef.current;
+    if (!row) return;
+    const mid = row.getBoundingClientRect().left + row.clientWidth / 2;
+    let best = 0;
+    let bestDist = Infinity;
+    row.querySelectorAll<HTMLElement>(".principle-card").forEach((card, i) => {
+      const r = card.getBoundingClientRect();
+      const d = Math.abs(r.left + r.width / 2 - mid);
+      if (d < bestDist) {
+        bestDist = d;
+        best = i;
+      }
+    });
+    setActive(best);
+  }, []);
+
+  const goTo = (i: number) => {
+    rowRef.current
+      ?.querySelectorAll<HTMLElement>(".principle-card")
+      [i]?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  };
   const { t, dir } = useLocale();
   const p = t.principles;
   const principles = p.items.map((item, i) => ({ ...item, num: String(i + 1).padStart(2, "0") }));
@@ -22,67 +54,73 @@ export default function EngineeringPrinciples() {
     const section = sectionRef.current;
     const track = trackRef.current;
     if (!section || !track) return;
+    const rtl = dir === "rtl";
+    const mm = gsap.matchMedia();
 
-    const cards = gsap.utils.toArray<HTMLElement>(".principle-card", section);
-    // Measured on every refresh so resizing / rotating the phone stays correct
-    const totalScroll = () => track.scrollWidth - window.innerWidth;
+    mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
+      // Measured on every refresh so resizing stays correct
+      const distance = () => Math.max(0, track.scrollWidth - window.innerWidth);
 
-    const ctx = gsap.context(() => {
-      // Horizontal scroll with pin
-      const horizontalTween = gsap.to(track, {
-        x: () => -totalScroll(),
+      const tween = gsap.to(track, {
+        x: () => (rtl ? distance() : -distance()),
         ease: "none",
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: () => `+=${totalScroll()}`,
+          end: () => `+=${distance()}`,
           pin: true,
-          scrub: 0.8,
+          scrub: 0.6,
           invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            if (barRef.current) barRef.current.style.transform = `scaleX(${self.progress})`;
+          },
         },
       });
 
-      // Flip each card individually tied to horizontal scroll
-      cards.forEach((card) => {
-        const inner = card.querySelector<HTMLElement>(".card-inner");
-        if (!inner) return;
-
-        gsap.to(inner, {
-          rotateY: 180,
-          ease: "power2.inOut",
-          scrollTrigger: {
-            trigger: card,
-            containerAnimation: horizontalTween,
-            start: "left 45%",
-            end: "left 15%",
-            scrub: true,
-          },
+      gsap.utils.toArray<HTMLElement>(".principle-card", track).forEach((card) => {
+        // Ease in from the side the card enters on
+        gsap.fromTo(
+          card,
+          { opacity: 0.3, scale: 0.9, rotateY: rtl ? -16 : 16 },
+          {
+            opacity: 1,
+            scale: 1,
+            rotateY: 0,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: card,
+              containerAnimation: tween,
+              start: rtl ? "right 0%" : "left 100%",
+              end: rtl ? "center 45%" : "center 55%",
+              scrub: true,
+            },
+          }
+        );
+        // Highlight the one card crossing the middle of the screen
+        ScrollTrigger.create({
+          trigger: card,
+          containerAnimation: tween,
+          start: rtl ? "right 50%" : "left 50%",
+          end: rtl ? "left 50%" : "right 50%",
+          toggleClass: "is-active",
         });
       });
     });
 
-    return () => ctx.revert();
-  }, []);
+    return () => mm.revert();
+  }, [dir]);
 
   return (
     <section
       id="principles"
       ref={sectionRef}
-      // The horizontal track is laid out left-to-right in both languages, so its
-      // overflow starts on the right; each panel sets its own text direction.
-      dir="ltr"
       className="relative overflow-hidden"
       style={{ background: "var(--bg-primary)" }}
     >
       {/* Track */}
-      <div
-        ref={trackRef}
-        dir="ltr"
-        className="flex items-center h-svh"
-        style={{ width: "fit-content" }}
-      >
-        {/* Intro Panel — half-screen so first cards peek in */}
-        <div dir={dir} className="shrink-0 flex flex-col justify-center px-8 md:px-16 w-[100vw] md:w-[50vw] md:min-w-[420px] h-svh">
+      <div ref={trackRef} className="flex flex-col md:flex-row md:items-center md:h-svh md:w-max">
+        {/* Intro panel */}
+        <div className="shrink-0 flex flex-col justify-center px-6 pt-24 pb-10 md:p-0 md:px-16 md:w-[42vw] md:min-w-[420px] md:h-svh">
           <SectionHeader title={p.eyebrow} index="03" />
           <h2 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold tracking-tighter leading-[0.95] mb-6">
             {p.title[0]}<br />
@@ -93,117 +131,90 @@ export default function EngineeringPrinciples() {
           </p>
         </div>
 
-        {/* Cards */}
-        <div className="flex items-center gap-8 md:gap-10 shrink-0 pl-8">
-          {principles.map((item) => (
-            <div
+        {/* Cards — a swipe row on phones, the moving track on desktop */}
+        <div
+          ref={rowRef}
+          onScroll={onRowScroll}
+          className="flex gap-4 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none no-scrollbar px-[10vw] md:px-0 pb-6 md:pb-0 shrink-0"
+          style={{ perspective: 1400 }}
+        >
+          {principles.map((item, i) => (
+            <article
               key={item.num}
-              dir={dir}
-              className="principle-card shrink-0"
-              style={{
-                width: "min(360px, 80vw)",
-                height: "min(520px, 70vh)",
-                perspective: "1200px",
-              }}
+              data-active={i === active}
+              className="principle-card group relative shrink-0 snap-center w-[80vw] max-w-[340px] md:w-[340px] md:max-w-none h-[420px] md:h-[min(500px,68vh)] rounded-[1.5rem] p-7 md:p-9 flex flex-col justify-between overflow-hidden"
             >
-              <div
-                className="card-inner relative w-full h-full"
-                style={{ transformStyle: "preserve-3d" }}
+              {/* Accent line */}
+              <div className="card-line absolute top-0 inset-x-0 h-[2px]" style={{ background: "linear-gradient(90deg, transparent, var(--accent), transparent)" }} />
+
+              <span
+                className="text-7xl md:text-8xl font-display font-bold leading-none tracking-tighter"
+                style={{ color: "var(--accent)" }}
+                aria-hidden="true"
               >
-                {/* ─── BACK (visible first) ─── */}
-                <div
-                  className="absolute inset-0 rounded-[1.5rem] overflow-hidden flex flex-col items-center justify-center"
-                  style={{
-                    backfaceVisibility: "hidden",
-                    background: "var(--bg-secondary)",
-                    border: "1px solid var(--border-subtle)",
-                  }}
+                <span className="card-num">{item.num}</span>
+              </span>
+
+              <div>
+                <h3
+                  className="text-[1.7rem] md:text-4xl font-display font-bold tracking-tight mb-4 whitespace-pre-line leading-[1.1]"
+                  style={{ color: "var(--text-primary)" }}
                 >
-                  {/* Minimal geometric back */}
-                  <div className="absolute inset-4 rounded-2xl border border-dashed pointer-events-none" style={{ borderColor: "rgba(255,255,255,0.04)" }} />
-                  <div className="absolute inset-8 rounded-xl border pointer-events-none" style={{ borderColor: "rgba(255,255,255,0.03)" }} />
-
-                  {/* Center diamond */}
-                  <div className="relative w-20 h-20 flex items-center justify-center">
-                    <div className="absolute inset-0 rotate-45 rounded-lg border" style={{ borderColor: "var(--accent)", opacity: 0.4 }} />
-                    <span className="text-lg font-display font-bold" style={{ color: "var(--accent)" }}>{item.num}</span>
-                  </div>
-
-                  {/* Top & Bottom labels */}
-                  <span className="absolute top-8 text-[9px] font-mono tracking-[0.4em] uppercase" style={{ color: "var(--text-tertiary)" }}>
-                    {p.card}
-                  </span>
-                  <span className="absolute bottom-8 text-[9px] font-mono tracking-[0.4em] uppercase" style={{ color: "var(--text-tertiary)" }}>
-                    {item.num} / {total}
-                  </span>
-
-                  {/* Corner crosses */}
-                  {["top-5 left-5", "top-5 right-5", "bottom-5 left-5", "bottom-5 right-5"].map((pos) => (
-                    <span key={pos} className={`absolute ${pos} text-[10px] font-mono`} style={{ color: "rgba(255,255,255,0.08)" }}>+</span>
-                  ))}
-                </div>
-
-                {/* ─── FRONT (content, starts hidden) ─── */}
-                <div
-                  className="absolute inset-0 rounded-[1.5rem] p-10 flex flex-col justify-between group overflow-hidden"
-                  style={{
-                    backfaceVisibility: "hidden",
-                    transform: "rotateY(180deg)",
-                    background: "linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)",
-                    border: "1px solid rgba(255,255,255,0.08)",
-                    boxShadow: "inset 0 1px 1px rgba(255,255,255,0.05), 0 20px 40px rgba(0,0,0,0.4)"
-                  }}
-                >
-                  {/* Hover Accent Glow */}
-                  <div className="absolute top-0 left-0 w-full h-[2px]" style={{ background: "linear-gradient(90deg, transparent, var(--accent), transparent)", opacity: 0.5 }} />
-
-                  {/* Number */}
-                  <div className="flex justify-between items-start">
-                    <span
-                      className="text-7xl md:text-8xl font-display font-bold leading-none tracking-tighter"
-                      style={{ color: "var(--accent)", opacity: 0.15 }}
-                    >
-                      {item.num}
-                    </span>
-                  </div>
-
-                  {/* Content */}
-                  <div>
-                    <h3
-                      className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-5 whitespace-pre-line leading-[1.1]"
-                      style={{ color: "var(--text-primary)" }}
-                    >
-                      {item.title}
-                    </h3>
-                    <p className="text-sm leading-[1.8]" style={{ color: "var(--text-secondary)" }}>
-                      {item.desc}
-                    </p>
-                  </div>
-
-                  {/* Bottom accent line */}
-                  <div className="flex items-center gap-3 mt-4">
-                    <div className="w-8 h-[2px] rounded-full" style={{ background: "var(--accent)" }} />
-                    <span className="text-[10px] font-mono tracking-widest" style={{ color: "var(--text-tertiary)" }}>
-                      {item.num} / {total}
-                    </span>
-                  </div>
-                </div>
+                  {item.title}
+                </h3>
+                <p className="text-sm leading-[1.8]" style={{ color: "var(--text-secondary)" }}>
+                  {item.desc}
+                </p>
               </div>
-            </div>
+
+              <div className="flex items-center gap-3">
+                <div className="card-bar w-8 h-[2px] rounded-full" style={{ background: "var(--accent)" }} />
+                <span className="text-[10px] font-mono tracking-widest" style={{ color: "var(--text-tertiary)" }}>
+                  {p.card} {item.num} / {total}
+                </span>
+              </div>
+            </article>
           ))}
         </div>
 
-        {/* Spacer to allow the last card to travel far enough left to trigger its flip (needs to reach 15vw) */}
-        <div className="shrink-0" style={{ width: "15vw" }} />
+        {/* Phone: swipe hint + position dots */}
+        <div className="md:hidden flex items-center justify-center gap-4 pb-20">
+          <span className="flex items-center gap-1.5 text-[10px] font-mono tracking-widest uppercase" style={{ color: "var(--text-tertiary)" }}>
+            <MoveHorizontal size={14} style={{ color: "var(--accent)" }} />
+            {p.swipe}
+          </span>
+          <div className="flex items-center gap-1.5">
+            {principles.map((item, i) => (
+              <button
+                key={item.num}
+                type="button"
+                onClick={() => goTo(i)}
+                aria-label={`${p.card} ${item.num}`}
+                aria-current={i === active ? "true" : undefined}
+                className="h-1.5 rounded-full transition-all duration-300"
+                style={{ width: i === active ? 22 : 6, background: i === active ? "var(--accent)" : "rgba(255,255,255,0.18)" }}
+              />
+            ))}
+          </div>
+        </div>
 
-        {/* Outro Panel — elegant way to consume trailing scroll space instead of empty padding */}
-        <div dir={dir} className="shrink-0 flex flex-col justify-center px-12 md:px-24 w-[100vw] md:w-[45vw] md:min-w-[320px] h-svh">
+        {/* Outro panel (desktop) */}
+        <div className="hidden md:flex shrink-0 flex-col justify-center px-24 w-[40vw] min-w-[320px] h-svh">
           <h2 className="text-3xl md:text-5xl font-display font-bold tracking-tighter leading-[1.1] mb-6" style={{ color: "var(--text-tertiary)" }}>
             {p.outro[0]}<br />
             <span style={{ color: "var(--text-primary)" }}>{p.outro[1]}</span>
           </h2>
           <div className="w-12 h-[2px] rounded-full" style={{ background: "var(--accent)" }} />
         </div>
+      </div>
+
+      {/* Progress (desktop) */}
+      <div className="hidden md:block absolute bottom-[12vh] inset-x-16 h-[2px] rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }} aria-hidden="true">
+        <div
+          ref={barRef}
+          className="h-full w-full rounded-full"
+          style={{ background: "var(--accent)", transform: "scaleX(0)", transformOrigin: dir === "rtl" ? "right" : "left" }}
+        />
       </div>
     </section>
   );

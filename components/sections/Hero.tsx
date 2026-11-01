@@ -17,7 +17,7 @@ export default function Hero() {
     <section
       ref={ref}
       id="hero"
-      className="absolute top-0 inset-x-0 h-svh flex flex-col justify-between z-10 pointer-events-none pb-24 md:pb-10 pt-24 md:pt-28 px-5 md:px-10 overflow-hidden"
+      className="absolute top-0 inset-x-0 h-svh flex flex-col justify-between z-10 pointer-events-none pb-10 md:pb-12 pt-24 md:pt-28 px-5 md:px-10 overflow-hidden"
     >
       {/* Top Header / Role */}
       <div className="flex justify-between items-start w-full gap-6">
