@@ -1,17 +1,33 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import { navItems } from "@/constants/navigation";
+import { useLocale } from "@/providers/LocaleProvider";
+import { stripLocale } from "@/components/layout/LanguageSwitch";
+
+const labelKey: Record<string, keyof ReturnType<typeof useLocale>["t"]["nav"]> = {
+  "#about": "about",
+  "#experience": "experience",
+  "#work": "work",
+  "#tech-stack": "tech",
+  "#contact": "contact",
+};
 
 export default function Navigation() {
   const [active, setActive] = useState("");
   const [mounted, setMounted] = useState(false);
+  const { t, href } = useLocale();
+  const pathname = usePathname();
+  const router = useRouter();
+  const onHome = stripLocale(pathname) === "/";
 
   useEffect(() => {
     setMounted(true);
+    if (!onHome) return;
     const observers: IntersectionObserver[] = [];
-    
+
     // We observe sections to highlight the active dock item
     navItems.forEach((item) => {
       const el = document.getElementById(item.href.replace("#", ""));
@@ -24,11 +40,15 @@ export default function Navigation() {
       observers.push(obs);
     });
     return () => observers.forEach((o) => o.disconnect());
-  }, []);
+  }, [onHome]);
 
-  const go = useCallback((href: string) => {
-    document.getElementById(href.replace("#", ""))?.scrollIntoView({ behavior: "smooth" });
-  }, []);
+  const go = useCallback((hash: string) => {
+    if (!onHome) {
+      router.push(`${href("/")}${hash}`);
+      return;
+    }
+    document.getElementById(hash.replace("#", ""))?.scrollIntoView({ behavior: "smooth" });
+  }, [onHome, router, href]);
 
   if (!mounted) return null;
 
@@ -37,16 +57,17 @@ export default function Navigation() {
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, delay: 1, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed bottom-6 md:bottom-8 inset-x-0 z-50 px-4 pointer-events-none hidden md:flex justify-center"
+      className="fixed bottom-4 md:bottom-8 inset-x-0 z-50 px-3 pointer-events-none flex justify-center"
     >
       <nav
-        className="pointer-events-auto flex items-center gap-0.5 md:gap-2 rounded-full p-1 md:p-2 max-w-[95vw] overflow-x-auto no-scrollbar"
+        aria-label="Primary"
+        className="pointer-events-auto flex items-center gap-0.5 md:gap-2 rounded-full p-1 md:p-2 max-w-full overflow-x-auto no-scrollbar"
         style={{
-          background: "rgba(18, 18, 22, 0.65)",
-          backdropFilter: "blur(24px) saturate(1.5)",
-          WebkitBackdropFilter: "blur(24px) saturate(1.5)",
+          background: "rgba(16, 16, 16, 0.72)",
+          backdropFilter: "blur(24px) saturate(1.4)",
+          WebkitBackdropFilter: "blur(24px) saturate(1.4)",
           border: "1px solid rgba(255,255,255,0.08)",
-          boxShadow: "0 12px 40px rgba(0,0,0,0.4)",
+          boxShadow: "0 12px 40px rgba(0,0,0,0.45)",
         }}
       >
         {navItems.map((item) => {
@@ -55,19 +76,20 @@ export default function Navigation() {
             <button
               key={item.href}
               onClick={() => go(item.href)}
-              className="group relative px-3 md:px-4 py-2 text-[11px] md:text-[13px] font-medium rounded-full transition-colors whitespace-nowrap"
+              aria-current={isActive ? "true" : undefined}
+              className="group relative px-2.5 md:px-4 py-2 text-[12px] md:text-[13px] font-medium rounded-full transition-colors whitespace-nowrap"
               style={{ color: isActive ? "var(--text-primary)" : "var(--text-secondary)" }}
             >
               {isActive && (
                 <motion.span
                   layoutId="dock-pill"
                   className="absolute inset-0 rounded-full"
-                  style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.05)" }}
+                  style={{ background: "rgb(var(--accent-rgb) / 0.14)", border: "1px solid var(--accent-border)" }}
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
               <span className="relative z-10 group-hover:text-[var(--text-primary)] transition-colors">
-                {item.label}
+                {t.nav[labelKey[item.href]]}
               </span>
             </button>
           );

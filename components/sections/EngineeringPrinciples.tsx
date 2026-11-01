@@ -4,63 +4,38 @@ import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SectionHeader from "@/components/shared/SectionHeader";
+import { useLocale } from "@/providers/LocaleProvider";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const principles = [
-  {
-    num: "01",
-    title: "Performance\nFirst",
-    desc: "Every millisecond matters. I optimize for Core Web Vitals, minimize bundle sizes, and use lazy loading, code splitting, and GPU-accelerated animations.",
-  },
-  {
-    num: "02",
-    title: "Clean\nArchitecture",
-    desc: "Code should be a pleasure to read and maintain. I follow SOLID principles, separate concerns clearly, and design systems that scale.",
-  },
-  {
-    num: "03",
-    title: "Type\nSafety",
-    desc: "TypeScript is not optional. Strong typing catches bugs at compile time, serves as living documentation, and makes refactoring fearless.",
-  },
-  {
-    num: "04",
-    title: "Accessible\nby Default",
-    desc: "The web is for everyone. I build with semantic HTML, proper ARIA attributes, keyboard navigation, and screen reader compatibility.",
-  },
-  {
-    num: "05",
-    title: "Responsive\nEverywhere",
-    desc: "Mobile is not an afterthought. I design and build mobile-first, ensuring every interface feels native across all devices.",
-  },
-  {
-    num: "06",
-    title: "Pixel\nPerfect",
-    desc: "From Figma to production. I obsess over every detail — spacing, color, transitions — to deliver interfaces that are indistinguishable from the design.",
-  },
-];
+
 
 export default function EngineeringPrinciples() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const { t, dir } = useLocale();
+  const p = t.principles;
+  const principles = p.items.map((item, i) => ({ ...item, num: String(i + 1).padStart(2, "0") }));
+  const total = String(principles.length).padStart(2, "0");
 
   useEffect(() => {
     const section = sectionRef.current;
     const track = trackRef.current;
     if (!section || !track) return;
 
-    const cards = gsap.utils.toArray<HTMLElement>(".principle-card");
-    const totalScroll = track.scrollWidth - window.innerWidth;
+    const cards = gsap.utils.toArray<HTMLElement>(".principle-card", section);
+    // Measured on every refresh so resizing / rotating the phone stays correct
+    const totalScroll = () => track.scrollWidth - window.innerWidth;
 
     const ctx = gsap.context(() => {
       // Horizontal scroll with pin
       const horizontalTween = gsap.to(track, {
-        x: () => -totalScroll,
+        x: () => -totalScroll(),
         ease: "none",
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: () => `+=${totalScroll}`,
+          end: () => `+=${totalScroll()}`,
           pin: true,
           scrub: 0.8,
           invalidateOnRefresh: true,
@@ -93,32 +68,37 @@ export default function EngineeringPrinciples() {
     <section
       id="principles"
       ref={sectionRef}
+      // The horizontal track is laid out left-to-right in both languages, so its
+      // overflow starts on the right; each panel sets its own text direction.
+      dir="ltr"
       className="relative overflow-hidden"
       style={{ background: "var(--bg-primary)" }}
     >
       {/* Track */}
       <div
         ref={trackRef}
-        className="flex items-center h-screen"
+        dir="ltr"
+        className="flex items-center h-svh"
         style={{ width: "fit-content" }}
       >
         {/* Intro Panel — half-screen so first cards peek in */}
-        <div className="shrink-0 flex flex-col justify-center px-8 md:px-16 w-[100vw] md:w-[50vw] md:min-w-[420px] h-[100vh]">
-          <SectionHeader title="Principles" index="03" />
+        <div dir={dir} className="shrink-0 flex flex-col justify-center px-8 md:px-16 w-[100vw] md:w-[50vw] md:min-w-[420px] h-svh">
+          <SectionHeader title={p.eyebrow} index="03" />
           <h2 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold tracking-tighter leading-[0.95] mb-6">
-            The Code<br />
-            <span style={{ color: "var(--text-tertiary)" }}>Behind The Craft.</span>
+            {p.title[0]}<br />
+            <span style={{ color: "var(--text-tertiary)" }}>{p.title[1]}</span>
           </h2>
           <p className="text-sm md:text-base max-w-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-            The principles that shape every line of code I write.
+            {p.intro}
           </p>
         </div>
 
         {/* Cards */}
         <div className="flex items-center gap-8 md:gap-10 shrink-0 pl-8">
-          {principles.map((p) => (
+          {principles.map((item) => (
             <div
-              key={p.num}
+              key={item.num}
+              dir={dir}
               className="principle-card shrink-0"
               style={{
                 width: "min(360px, 80vw)",
@@ -146,15 +126,15 @@ export default function EngineeringPrinciples() {
                   {/* Center diamond */}
                   <div className="relative w-20 h-20 flex items-center justify-center">
                     <div className="absolute inset-0 rotate-45 rounded-lg border" style={{ borderColor: "var(--accent)", opacity: 0.4 }} />
-                    <span className="text-lg font-display font-bold" style={{ color: "var(--accent)" }}>{p.num}</span>
+                    <span className="text-lg font-display font-bold" style={{ color: "var(--accent)" }}>{item.num}</span>
                   </div>
 
                   {/* Top & Bottom labels */}
                   <span className="absolute top-8 text-[9px] font-mono tracking-[0.4em] uppercase" style={{ color: "var(--text-tertiary)" }}>
-                    Principle
+                    {p.card}
                   </span>
                   <span className="absolute bottom-8 text-[9px] font-mono tracking-[0.4em] uppercase" style={{ color: "var(--text-tertiary)" }}>
-                    {p.num} / 06
+                    {item.num} / {total}
                   </span>
 
                   {/* Corner crosses */}
@@ -183,7 +163,7 @@ export default function EngineeringPrinciples() {
                       className="text-7xl md:text-8xl font-display font-bold leading-none tracking-tighter"
                       style={{ color: "var(--accent)", opacity: 0.15 }}
                     >
-                      {p.num}
+                      {item.num}
                     </span>
                   </div>
 
@@ -193,10 +173,10 @@ export default function EngineeringPrinciples() {
                       className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-5 whitespace-pre-line leading-[1.1]"
                       style={{ color: "var(--text-primary)" }}
                     >
-                      {p.title}
+                      {item.title}
                     </h3>
                     <p className="text-sm leading-[1.8]" style={{ color: "var(--text-secondary)" }}>
-                      {p.desc}
+                      {item.desc}
                     </p>
                   </div>
 
@@ -204,7 +184,7 @@ export default function EngineeringPrinciples() {
                   <div className="flex items-center gap-3 mt-4">
                     <div className="w-8 h-[2px] rounded-full" style={{ background: "var(--accent)" }} />
                     <span className="text-[10px] font-mono tracking-widest" style={{ color: "var(--text-tertiary)" }}>
-                      {p.num} / 06
+                      {item.num} / {total}
                     </span>
                   </div>
                 </div>
@@ -217,10 +197,10 @@ export default function EngineeringPrinciples() {
         <div className="shrink-0" style={{ width: "15vw" }} />
 
         {/* Outro Panel — elegant way to consume trailing scroll space instead of empty padding */}
-        <div className="shrink-0 flex flex-col justify-center px-12 md:px-24 w-[100vw] md:w-[45vw] md:min-w-[320px] h-[100vh]">
+        <div dir={dir} className="shrink-0 flex flex-col justify-center px-12 md:px-24 w-[100vw] md:w-[45vw] md:min-w-[320px] h-svh">
           <h2 className="text-3xl md:text-5xl font-display font-bold tracking-tighter leading-[1.1] mb-6" style={{ color: "var(--text-tertiary)" }}>
-            Ready to see<br />
-            <span style={{ color: "var(--text-primary)" }}>these in action?</span>
+            {p.outro[0]}<br />
+            <span style={{ color: "var(--text-primary)" }}>{p.outro[1]}</span>
           </h2>
           <div className="w-12 h-[2px] rounded-full" style={{ background: "var(--accent)" }} />
         </div>

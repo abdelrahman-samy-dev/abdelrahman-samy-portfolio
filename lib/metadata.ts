@@ -1,50 +1,66 @@
 import type { Metadata } from "next";
+import { localePath, type Locale } from "@/lib/i18n";
+import { getDictionary } from "@/lib/dictionaries";
 
 const siteConfig = {
   name: "Abdelrahman Samy Ali",
-  title: "Abdelrahman Samy Ali — Frontend Developer",
-  description:
-    "Frontend Developer with 2+ years specializing in React.js, Next.js, and TypeScript. Building performant, accessible, and beautifully crafted web experiences.",
-  url: "https://abdelrahman-samy-dev.vercel.app",
-  locale: "en_US",
+  url: "https://abdelrahman-samy-portfolio.vercel.app",
   creator: "Abdelrahman Samy Ali",
 };
 
-export function generateSiteMetadata(): Metadata {
+/** hreflang links for a path that exists in both languages */
+export function languageAlternates(locale: Locale, path = "/") {
+  return {
+    canonical: localePath(locale, path),
+    languages: {
+      en: localePath("en", path),
+      ar: localePath("ar", path),
+      "x-default": localePath("en", path),
+    },
+  };
+}
+
+export function generateSiteMetadata(locale: Locale): Metadata {
+  const t = getDictionary(locale).meta;
   return {
     title: {
-      default: siteConfig.title,
-      template: `%s | ${siteConfig.name}`,
+      default: t.title,
+      template: `%s | ${locale === "ar" ? "عبدالرحمن سامي علي" : siteConfig.name}`,
     },
-    description: siteConfig.description,
+    description: t.description,
     metadataBase: new URL(siteConfig.url),
     creator: siteConfig.creator,
     authors: [{ name: siteConfig.creator }],
+    alternates: languageAlternates(locale),
     keywords: [
-      "Frontend Developer",
-      "React.js",
+      "Software Engineer",
+      "Full-Stack Developer",
+      "Mobile Developer",
+      "React",
       "Next.js",
       "TypeScript",
-      "Tailwind CSS",
-      "Three.js",
-      "Web Development",
+      "Node.js",
+      "PostgreSQL",
+      "Flutter",
+      "GlooFloo",
+      "Rawaylo",
       "Cairo",
       "Egypt",
-      "Performance",
-      "Accessibility",
+      "مهندس برمجيات",
     ],
     openGraph: {
       type: "website",
-      locale: siteConfig.locale,
-      url: siteConfig.url,
-      title: siteConfig.title,
-      description: siteConfig.description,
+      locale: locale === "ar" ? "ar_EG" : "en_US",
+      alternateLocale: locale === "ar" ? "en_US" : "ar_EG",
+      url: localePath(locale),
+      title: t.title,
+      description: t.description,
       siteName: siteConfig.name,
     },
     twitter: {
       card: "summary_large_image",
-      title: siteConfig.title,
-      description: siteConfig.description,
+      title: t.title,
+      description: t.description,
     },
     robots: {
       index: true,

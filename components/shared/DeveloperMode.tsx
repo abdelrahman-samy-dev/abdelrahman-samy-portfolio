@@ -73,7 +73,7 @@ export default function DeveloperMode() {
           <div
             className="flex flex-col gap-3 p-4 rounded-xl backdrop-blur-md font-mono text-[11px]"
             style={{
-              background: "rgba(12, 12, 16, 0.8)",
+              background: "rgb(var(--bg-rgb) / 0.8)",
               border: "1px solid var(--success)",
               color: "var(--success)",
               boxShadow: "0 0 20px rgba(52,211,153,0.15)",

@@ -2,22 +2,37 @@
 
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Search, FileText, FolderGit2, Link as LinkIcon, Mail, ArrowRight } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Search, FileText, FolderGit2, Link as LinkIcon, Mail, ArrowRight, Languages } from "lucide-react";
 import { commandItems } from "@/constants/navigation";
+import { useLocale } from "@/providers/LocaleProvider";
+import { localePath } from "@/lib/i18n";
+import { stripLocale } from "@/components/layout/LanguageSwitch";
+import type { CommandItem } from "@/types";
 
 export default function CommandPalette() {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { locale, t, href } = useLocale();
+  const pathname = usePathname();
+  const router = useRouter();
+  const onHome = stripLocale(pathname) === "/";
+
+  // Localized commands, plus one that switches the site language
+  const items: CommandItem[] = ([
+    ...commandItems,
+    { id: "language", label: "", action: localePath(locale === "ar" ? "en" : "ar", stripLocale(pathname)), category: "action" },
+  ] as CommandItem[]).map((item) => ({ ...item, ...t.palette.items[item.id] }));
 
   // Filter items
   const filtered = search
-    ? commandItems.filter((i) =>
+    ? items.filter((i) =>
         i.label.toLowerCase().includes(search.toLowerCase()) ||
         (i.description && i.description.toLowerCase().includes(search.toLowerCase()))
       )
-    : commandItems;
+    : items;
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -58,10 +73,13 @@ export default function CommandPalette() {
     setSelectedIndex(0); // Reset index on search change
   }, [search]);
 
-  const executeCommand = (item: typeof commandItems[0]) => {
+  const executeCommand = (item: CommandItem) => {
     setOpen(false);
     if (item.category === "navigation") {
-      document.getElementById(item.action.replace("#", ""))?.scrollIntoView({ behavior: "smooth" });
+      if (onHome) document.getElementById(item.action.replace("#", ""))?.scrollIntoView({ behavior: "smooth" });
+      else router.push(`${href("/")}${item.action}`);
+    } else if (item.id === "language") {
+      router.push(item.action);
     } else if (item.category === "external" || item.category === "action") {
       window.open(item.action, item.category === "external" ? "_blank" : "_self");
     }
@@ -74,6 +92,7 @@ export default function CommandPalette() {
       if (id === "resume") return <FileText size={16} />;
     }
     if (category === "action" && id === "email") return <Mail size={16} />;
+    if (id === "language") return <Languages size={16} />;
     return <ArrowRight size={16} />;
   };
 
@@ -111,7 +130,7 @@ export default function CommandPalette() {
                   <input
                     ref={inputRef}
                     type="text"
-                    placeholder="Search projects, sections, or actions..."
+                    placeholder={t.palette.placeholder}
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     className="flex-1 bg-transparent text-[15px] outline-none"
@@ -126,7 +145,7 @@ export default function CommandPalette() {
                 <div className="max-h-[300px] overflow-y-auto p-2 scrollbar-none">
                   {filtered.length === 0 ? (
                     <div className="px-4 py-8 text-center text-[13px]" style={{ color: "var(--text-tertiary)" }}>
-                      No results found for "{search}"
+                      {t.palette.empty} «{search}»
                     </div>
                   ) : (
                     filtered.map((item, i) => {
@@ -136,7 +155,7 @@ export default function CommandPalette() {
                           key={item.id}
                           onClick={() => executeCommand(item)}
                           onMouseEnter={() => setSelectedIndex(i)}
-                          className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-left transition-colors"
+                          className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-start transition-colors"
                           style={{
                             background: isSelected ? "var(--accent-subtle)" : "transparent",
                           }}

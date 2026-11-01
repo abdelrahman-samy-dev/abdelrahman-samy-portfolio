@@ -6,31 +6,85 @@
    ============================================ */
 
 @theme inline {
-  --font-sans: var(--font-inter);
-  --font-display: var(--font-space-grotesk);
-  --font-mono: var(--font-jetbrains-mono);
+  --font-sans: var(--ff-sans);
+  --font-display: var(--ff-display);
+  --font-mono: var(--ff-mono);
   --animate-spin-slow: spin 8s linear infinite;
 }
 
+/* ============================================
+   TOKENS — change the accent here and the whole
+   site follows (accent-rgb drives every tint).
+   ============================================ */
 :root {
-  --bg-primary:     #0c0c10;
-  --bg-secondary:   #141418;
-  --bg-tertiary:    #1c1c22;
-  --text-primary:   #f0f0f2;
-  --text-secondary: #888899;
-  --text-tertiary:  #555566;
-  --accent:         #FF3333;
-  --accent-hover:   #FF4D4D;
-  --accent-subtle:  rgba(255, 51, 51, 0.1);
-  --accent-secondary: #FF8080;
-  --border:         rgba(255, 255, 255, 0.07);
-  --border-subtle:  rgba(255, 255, 255, 0.035);
-  --glass-bg:       rgba(14, 14, 18, 0.8);
-  --glass-hover:    rgba(20, 20, 26, 0.9);
-  --glass-border:   rgba(255, 255, 255, 0.05);
-  --success:        #34d399;
+  /* Neutral charcoal — no blue / purple cast */
+  --bg-primary:     #0a0a0a;
+  --bg-secondary:   #121212;
+  --bg-tertiary:    #1a1a1a;
+  --bg-rgb:         10 10 10;
+
+  /* Warm off-white text */
+  --text-primary:   #f3f1ec;
+  --text-secondary: #a8a49c;
+  --text-tertiary:  #7a766f;
+
+  /* Accent — warm amber / gold */
+  --accent-rgb:       233 162 59;
+  --accent:           rgb(var(--accent-rgb));
+  --accent-hover:     #f2b65a;
+  --accent-secondary: #f6d08f;
+  --accent-subtle:    rgb(var(--accent-rgb) / 0.1);
+  --accent-border:    rgb(var(--accent-rgb) / 0.28);
+  --accent-glow:      rgb(var(--accent-rgb) / 0.08);
+
+  /* Lines & surfaces */
+  --border:         rgba(255, 255, 255, 0.08);
+  --border-subtle:  rgba(255, 255, 255, 0.045);
+  --surface:        rgba(255, 255, 255, 0.025);
+  --surface-hover:  rgba(255, 255, 255, 0.05);
+  --glass-bg:       rgba(14, 14, 14, 0.78);
+  --glass-hover:    rgba(22, 22, 22, 0.9);
+  --glass-border:   rgba(255, 255, 255, 0.06);
+
+  --success:        #4ade80;
   --error:          #f87171;
+
+  /* Radii */
+  --radius-sm: 0.75rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+
+  /* Type families (Arabic swaps them below) */
+  --ff-sans:    var(--font-inter), system-ui, sans-serif;
+  --ff-display: var(--font-space-grotesk), var(--font-inter), system-ui, sans-serif;
+  --ff-mono:    var(--font-jetbrains-mono), ui-monospace, monospace;
 }
+
+/* ── Arabic ── */
+html[lang="ar"] {
+  --ff-sans:    var(--font-alexandria), var(--font-inter), system-ui, sans-serif;
+  --ff-display: var(--font-lalezar), var(--font-alexandria), var(--font-space-grotesk), sans-serif;
+  --ff-mono:    var(--font-alexandria), var(--font-jetbrains-mono), monospace;
+}
+/* Labels stay as written — don't shout Latin brand names inside Arabic */
+html[lang="ar"] .uppercase { text-transform: none; }
+/* Letter-spacing breaks joined Arabic letters */
+html[lang="ar"] [class*="tracking-"] { letter-spacing: 0 !important; }
+/* Lalezar ships one heavy weight — never synthesize bold; its glyphs are short
+   for their em, so a slightly looser leading keeps dots and alifs clear */
+html[lang="ar"] .font-display {
+  font-weight: 400 !important;
+  font-synthesis: none;
+  line-height: 1.12 !important;
+}
+html[lang="ar"] body { line-height: 1.8; font-weight: 300; }
+html[lang="ar"] :is(p, li) { font-weight: 300; }
+html[lang="ar"] :is(b, strong, h3, .font-medium, .font-semibold) { font-weight: 500; }
+/* Mono labels become small Alexandria caps-less labels — a touch larger to stay legible */
+html[lang="ar"] .font-mono { font-size: 1.08em; }
+/* Mirror direction-aware icons (arrows) in RTL */
+[dir="rtl"] .flip-rtl { transform: scaleX(-1); }
 
 /* ── Base ── */
 html {
@@ -42,11 +96,12 @@ html {
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
+  font-family: var(--ff-sans);
   overflow-x: hidden;
 }
 
 ::selection {
-  background: var(--accent-subtle);
+  background: rgb(var(--accent-rgb) / 0.3);
   color: var(--text-primary);
 }
 
@@ -129,7 +184,7 @@ body {
   border-radius: 9999px;
   background: var(--accent-subtle);
   color: var(--accent);
-  border: 1px solid rgba(110, 140, 247, 0.08);
+  border: 1px solid var(--accent-border);
   letter-spacing: 0.02em;
 }
 
@@ -279,7 +334,7 @@ body {
   border-color: var(--accent);
   transform: translateY(-3px);
   box-shadow:
-    0 0 20px rgba(255, 59, 48, 0.06),
+    0 0 20px var(--accent-glow),
     0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
@@ -315,3 +370,6 @@ body {
 .skillCard:hover .skillName {
   color: var(--text-primary);
 }
+
+/* Brand names scroll left-to-right in both languages */
+.marqueeWrapper { direction: ltr; }

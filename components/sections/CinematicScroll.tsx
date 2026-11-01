@@ -1,9 +1,15 @@
 "use client";
 
 import { useRef, useEffect, useCallback } from "react";
-import { usePreloadedImages } from "@/components/shared/Preloader";
+import { usePreloadedImages, TOTAL_FRAMES } from "@/components/shared/Preloader";
 
-const TOTAL_FRAMES = 96;
+const isReady = (img?: HTMLImageElement) => !!img && img.complete && img.naturalWidth > 0;
+
+/** The requested frame, or the closest earlier one that has finished loading */
+function nearestLoaded(images: HTMLImageElement[], index: number) {
+  for (let i = index; i >= 0; i--) if (isReady(images[i])) return images[i];
+  return undefined;
+}
 
 export default function CinematicScroll() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -13,14 +19,11 @@ export default function CinematicScroll() {
 
   const drawFrame = useCallback((index: number, imgs?: HTMLImageElement[]) => {
     const canvas = canvasRef.current;
-    const sourceImages = imgs || images;
-    if (!canvas || !sourceImages[index]) return;
+    const img = nearestLoaded(imgs || images, index);
+    if (!canvas || !img) return;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-
-    const img = sourceImages[index];
-    if (!img.complete || img.naturalWidth === 0) return;
 
     // Set canvas size to match window (retina)
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -112,13 +115,15 @@ export default function CinematicScroll() {
         <canvas
           ref={canvasRef}
           className="absolute inset-0 w-full h-full"
+          role="img"
+          aria-label="Portrait of Abdelrahman Samy Ali"
         />
 
         {/* Dark overlay to blend image edges into background */}
         <div
           className="absolute inset-0"
           style={{
-            background: "radial-gradient(circle, transparent 20%, rgba(12,12,16,0.5) 60%, rgba(12,12,16,1) 100%)",
+            background: "radial-gradient(circle, transparent 20%, rgb(var(--bg-rgb) / 0.5) 60%, rgb(var(--bg-rgb) / 1) 100%)",
           }}
         />
       </div>

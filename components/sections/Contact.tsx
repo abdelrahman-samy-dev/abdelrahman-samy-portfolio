@@ -2,7 +2,9 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "motion/react";
-import { Mail, ArrowUpRight, MapPin } from "lucide-react";
+import { Mail, ArrowUpRight, MapPin, FileText } from "lucide-react";
+import { useLocale } from "@/providers/LocaleProvider";
+import ContactOrb from "@/components/three/ContactOrb";
 
 /* ── Brand SVG Icons ── */
 function WhatsAppIcon({ size = 20 }: { size?: number }) {
@@ -29,22 +31,7 @@ function LinkedInIcon({ size = 16 }: { size?: number }) {
   );
 }
 
-const contactMethods = [
-  {
-    icon: WhatsAppIcon,
-    label: "WhatsApp",
-    value: "+20 114 139 3811",
-    href: "https://wa.me/201141393811?text=Hi%20Abdelrahman%2C%20I%27d%20like%20to%20discuss%20a%20project.",
-    description: "Usually responds within an hour",
-  },
-  {
-    icon: Mail,
-    label: "Email",
-    value: "abdelrahman.samy.dev@outlook.com",
-    href: "mailto:abdelrahman.samy.dev@outlook.com",
-    description: "For detailed project inquiries",
-  },
-];
+
 
 const socials = [
   {
@@ -62,10 +49,30 @@ const socials = [
 export default function Contact() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, amount: 0.15 });
+  const { t } = useLocale();
+  const c = t.contact;
+  const contactMethods = [
+    {
+      icon: WhatsAppIcon,
+      label: c.whatsapp,
+      value: "+20 114 139 3811",
+      href: `https://wa.me/201141393811?text=${encodeURIComponent(c.whatsappText)}`,
+      description: c.whatsappHint,
+    },
+    {
+      icon: Mail,
+      label: c.email,
+      value: "abdelrahman.samy.dev@outlook.com",
+      href: "mailto:abdelrahman.samy.dev@outlook.com",
+      description: c.emailHint,
+    },
+  ];
 
   return (
-    <section id="contact" className="pt-28 pb-16 md:py-36" ref={ref}>
-      <div className="max-w-[1100px] mx-auto px-6 md:px-10">
+    <section id="contact" className="relative pt-24 pb-16 md:py-36 overflow-hidden" ref={ref}>
+      {/* 3D accent — loads only when the section is near the viewport */}
+      <ContactOrb className="absolute top-6 md:top-16 end-[-90px] md:end-[-40px] lg:end-[4%] w-[260px] h-[260px] md:w-[440px] md:h-[440px] opacity-90 pointer-events-none" />
+      <div className="relative max-w-[1100px] mx-auto px-6 md:px-10">
         {/* Header */}
         <div className="mb-20">
           <motion.p
@@ -75,7 +82,7 @@ export default function Contact() {
             className="text-[11px] font-medium tracking-[0.15em] uppercase mb-6"
             style={{ color: "var(--text-tertiary)" }}
           >
-            06 / GET IN TOUCH
+            {c.eyebrow}
           </motion.p>
           <motion.h2
             initial={{ y: 16, opacity: 0 }}
@@ -84,9 +91,9 @@ export default function Contact() {
             className="text-5xl md:text-7xl font-display font-bold tracking-tighter leading-[0.95] mb-6"
             style={{ color: "var(--text-primary)" }}
           >
-            Let&apos;s Build
+            {c.title[0]}
             <br />
-            <span className="gradient-text">Something Great.</span>
+            <span className="gradient-text">{c.title[1]}</span>
           </motion.h2>
           <motion.p
             initial={{ y: 12, opacity: 0 }}
@@ -95,8 +102,7 @@ export default function Contact() {
             className="text-base md:text-lg leading-relaxed max-w-lg"
             style={{ color: "var(--text-secondary)" }}
           >
-            Got a project, a question, or just want to connect? I&apos;m always
-            open to discussing new opportunities and ideas.
+            {c.intro}
           </motion.p>
         </div>
 
@@ -131,7 +137,7 @@ export default function Contact() {
                 className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center"
                 style={{
                   background: "var(--accent-subtle)",
-                  border: "1px solid rgba(255, 51, 51, 0.15)",
+                  border: "1px solid var(--accent-border)",
                 }}
               >
                 <method.icon size={20} style={{ color: "var(--accent)" }} />
@@ -151,7 +157,8 @@ export default function Contact() {
                   />
                 </div>
                 <p
-                  className="text-sm font-medium mb-1 truncate"
+                  dir="ltr"
+                  className="text-sm font-medium mb-1 truncate text-start"
                   style={{ color: "var(--text-secondary)" }}
                 >
                   {method.value}
@@ -190,12 +197,21 @@ export default function Contact() {
               className="text-sm"
               style={{ color: "var(--text-tertiary)" }}
             >
-              Cairo, Egypt · Open to Remote
+              {c.location}
             </span>
           </div>
 
           {/* Social Links */}
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-icon flex items-center gap-2 px-4 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-200"
+            >
+              <FileText size={16} />
+              <span>{c.resume}</span>
+            </a>
             {socials.map((social) => (
               <a
                 key={social.label}

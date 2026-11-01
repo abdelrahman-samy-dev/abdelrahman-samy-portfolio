@@ -17,7 +17,8 @@ export const commandItems: CommandItem[] = [
   { id: "contact", label: "Contact", action: "#contact", category: "navigation", shortcut: "C" },
   { id: "github", label: "GitHub", description: "View source code", action: "https://github.com/abdelrahman-samy-dev", category: "external" },
   { id: "linkedin", label: "LinkedIn", description: "Professional profile", action: "https://linkedin.com/in/abdelrahman-samy-dev", category: "external" },
-  { id: "resume", label: "Resume", description: "Download CV", action: "/resume.pdf", category: "external" },
+  { id: "resume", label: "Resume", description: "Download CV (PDF)", action: "/resume.pdf", category: "external" },
+  { id: "gloofloo", label: "GlooFloo", description: "Live product — gloofloo.com", action: "https://gloofloo.com", category: "external" },
   { id: "email", label: "Send Email", description: "abdelrahman.samy.dev@outlook.com", action: "mailto:abdelrahman.samy.dev@outlook.com", category: "action" },
 ];
 

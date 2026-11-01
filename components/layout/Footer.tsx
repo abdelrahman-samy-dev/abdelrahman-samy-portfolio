@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { ArrowUp, Mail } from "lucide-react";
+import { useLocale } from "@/providers/LocaleProvider";
+import Monogram from "@/components/shared/Monogram";
 
 /* ── Brand SVG Icons (lucide-react doesn't include brand icons) ── */
 function GithubIcon() {
@@ -37,7 +39,7 @@ const socials = [
 ];
 
 /* ── Scroll-to-Top with circular progress ring ── */
-function ScrollToTop() {
+function ScrollToTop({ label }: { label: string }) {
   const [percent, setPercent] = useState(0);
 
   useEffect(() => {
@@ -53,14 +55,11 @@ function ScrollToTop() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const radius = 18;
-  const circumference = 2 * Math.PI * radius;
-  const offset = circumference - (percent / 100) * circumference;
 
   return (
     <button
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className={`fixed bottom-8 right-6 md:bottom-10 md:right-8 z-50 flex items-center justify-center w-12 h-12 rounded-xl border transition-all duration-300 group overflow-hidden ${
+      className={`fixed bottom-20 end-4 md:bottom-10 md:end-8 z-50 flex items-center justify-center w-12 h-12 rounded-xl border transition-all duration-300 group overflow-hidden ${
         percent > 5
           ? "opacity-100 translate-y-0"
           : "opacity-0 translate-y-4 pointer-events-none"
@@ -71,7 +70,7 @@ function ScrollToTop() {
         borderColor: "var(--border-subtle)",
         boxShadow: "0 8px 32px rgba(0, 0, 0, 0.2)",
       }}
-      aria-label="Back to top"
+      aria-label={label}
     >
       {/* Progress background (subtle fill from bottom) */}
       <div
@@ -103,10 +102,12 @@ function ScrollToTop() {
 
 /* ── Footer ── */
 export default function Footer() {
+  const { t } = useLocale();
   return (
     <footer className="relative w-full pt-10 pb-28 md:pb-40" style={{ borderTop: "1px solid var(--border-subtle)" }}>
       <div className="max-w-[1100px] mx-auto px-6 md:px-10">
         <div className="flex flex-col items-center justify-center gap-6">
+          <Monogram size={36} />
           {/* Minimal Socials */}
           <div className="flex items-center gap-3">
             {socials.map(({ icon: Icon, label, href }) => (
@@ -138,11 +139,11 @@ export default function Footer() {
 
           {/* Minimal Copyright */}
           <p className="text-[12px] tracking-wide" style={{ color: "var(--text-tertiary)" }}>
-            &copy; {new Date().getFullYear()} Abdelrahman Samy Ali.
+            &copy; {new Date().getFullYear()} {t.footer.name}
           </p>
         </div>
       </div>
-      <ScrollToTop />
+      <ScrollToTop label={t.footer.backToTop} />
     </footer>
   );
 }

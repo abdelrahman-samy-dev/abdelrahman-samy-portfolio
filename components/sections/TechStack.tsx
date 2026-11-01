@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useInView } from "motion/react";
 import { skills } from "@/constants/skills";
 import type { Skill } from "@/types";
+import { useLocale } from "@/providers/LocaleProvider";
 
 function SkillCard({ skill }: { skill: Skill }) {
   return (
@@ -27,6 +28,7 @@ function SkillCard({ skill }: { skill: Skill }) {
 export default function TechStack() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, amount: 0.1 });
+  const { t } = useLocale();
 
   const half = Math.ceil(skills.length / 2);
   const row1 = skills.slice(0, half);
@@ -42,7 +44,7 @@ export default function TechStack() {
           className="text-[11px] font-medium tracking-[0.15em] uppercase mb-6"
           style={{ color: "var(--text-tertiary)" }}
         >
-          05 / TECH STACK
+          {t.tech.eyebrow}
         </motion.p>
         <motion.h2
           initial={{ y: 16, opacity: 0 }}
@@ -51,7 +53,7 @@ export default function TechStack() {
           className="text-5xl md:text-7xl font-display font-bold tracking-tighter leading-[0.95] mb-6"
           style={{ color: "var(--text-primary)" }}
         >
-          My Tech Arsenal
+          {t.tech.title}
         </motion.h2>
         <motion.p
           initial={{ y: 12, opacity: 0 }}
@@ -60,7 +62,7 @@ export default function TechStack() {
           className="text-base leading-relaxed max-w-xl"
           style={{ color: "var(--text-secondary)" }}
         >
-          The core technologies and tools I rely on to ship fast, scalable, and visually polished web experiences.
+          {t.tech.intro}
         </motion.p>
       </div>
 

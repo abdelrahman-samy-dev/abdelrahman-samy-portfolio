@@ -7,7 +7,15 @@ export interface Project {
   title: string;
   description: string;
   category: "web" | "mobile" | "open-source" | "design";
+  /** Short label shown under the title, e.g. "SaaS · Web, API & Mobile" */
+  label?: string;
+  /** Production state — "in-development" shows a badge instead of a live link */
+  status?: "live" | "in-development";
+  /** My role on the project, for team / company work */
+  role?: string;
   thumbnail: string;
+  /** Optional phone screenshot shown in a device frame next to the main image */
+  mobileShot?: string;
   tags: string[];
   github?: string;
   liveUrl?: string;
@@ -25,12 +33,34 @@ export interface Project {
   screenshots: string[];
 }
 
+/** Translatable text of a project; everything else (links, images, stack) is shared */
+export type ProjectCopy = Pick<
+  Project,
+  | "title"
+  | "description"
+  | "label"
+  | "role"
+  | "overview"
+  | "challenge"
+  | "solution"
+  | "architecture"
+  | "performance"
+  | "engineeringDecisions"
+  | "lessonsLearned"
+>;
+
+/** Translatable text of an experience entry */
+export type ExperienceCopy = Pick<
+  Experience,
+  "role" | "company" | "location" | "startDate" | "endDate" | "description" | "achievements"
+>;
+
 export interface Experience {
   id: string;
   role: string;
   company: string;
   companyUrl?: string;
-  location: string;
+  location?: string;
   startDate: string;
   endDate?: string;
   description: string;

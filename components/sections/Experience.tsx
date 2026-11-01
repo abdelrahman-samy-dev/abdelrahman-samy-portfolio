@@ -2,13 +2,17 @@
 
 import { useRef, useState } from "react";
 import { motion } from "motion/react";
-import { experiences } from "@/constants/experience";
+import { getExperiences } from "@/constants/content";
+import { useLocale } from "@/providers/LocaleProvider";
 import type { Experience } from "@/types";
 import { ArrowUpRight } from "lucide-react";
 import SectionHeader from "@/components/shared/SectionHeader";
 
-function ExperienceRow({ exp, index }: { exp: Experience; index: number }) {
-  const [isHovered, setIsHovered] = useState(false);
+function ExperienceRow({ exp, index, present }: { exp: Experience; index: number; present: string }) {
+  const [hovered, setHovered] = useState(false);
+  // Click / tap pins a row open — touch screens have no hover. The current role starts open.
+  const [pinned, setPinned] = useState(index === 0);
+  const isHovered = hovered || pinned;
 
   return (
     <motion.div
@@ -16,9 +20,19 @@ function ExperienceRow({ exp, index }: { exp: Experience; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-10%" }}
       transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="group relative border-t py-12 md:py-16 px-8 flex flex-col md:flex-row md:items-start gap-8 md:gap-16 cursor-pointer overflow-hidden"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onClick={() => setPinned((p) => !p)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          setPinned((p) => !p);
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      aria-expanded={isHovered}
+      className="group relative border-t py-12 md:py-16 px-6 md:px-8 flex flex-col md:flex-row md:items-start gap-8 md:gap-16 cursor-pointer overflow-hidden"
       style={{ borderColor: "var(--border-subtle)" }}
     >
       {/* Background Hover Reveal Effect */}
@@ -33,31 +47,35 @@ function ExperienceRow({ exp, index }: { exp: Experience; index: number }) {
           className="text-xs font-mono tracking-widest uppercase transition-colors duration-500"
           style={{ color: isHovered ? "var(--text-primary)" : "var(--text-tertiary)" }}
         >
-          {exp.startDate} — {exp.endDate || "Present"}
+          {exp.startDate} — {exp.endDate || present}
         </p>
       </div>
 
       {/* Content */}
       <div className="w-full relative z-10 flex flex-col items-start">
         <h3
-          className="text-3xl md:text-5xl font-display font-bold tracking-tighter mb-2 flex items-center gap-4 transition-colors duration-500"
+          className="text-[1.75rem] leading-tight md:text-5xl font-display font-bold tracking-tighter mb-2 flex items-center gap-4 transition-colors duration-500"
           style={{ color: isHovered ? "var(--accent)" : "var(--text-primary)" }}
         >
           {exp.role}
           <ArrowUpRight
             size={36}
-            className="opacity-0 -translate-x-8 translate-y-8 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hidden md:block"
+            className="flip-rtl shrink-0 opacity-0 -translate-x-8 translate-y-8 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hidden md:block"
           />
         </h3>
 
-        <div className="flex items-center gap-3 mb-6">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-6">
           <p className="text-lg md:text-xl font-medium tracking-wide" style={{ color: "var(--text-secondary)" }}>
             {exp.company}
           </p>
-          <span className="w-1 h-1 rounded-full bg-neutral-600" />
-          <p className="text-sm font-mono tracking-widest uppercase" style={{ color: "var(--text-tertiary)" }}>
-            {exp.location}
-          </p>
+          {exp.location && (
+            <>
+              <span className="w-1 h-1 rounded-full bg-neutral-600" />
+              <p className="text-sm font-mono tracking-widest uppercase" style={{ color: "var(--text-tertiary)" }}>
+                {exp.location}
+              </p>
+            </>
+          )}
         </div>
 
         {/* Accordion Expand for Achievements */}
@@ -104,31 +122,33 @@ function ExperienceRow({ exp, index }: { exp: Experience; index: number }) {
 
 export default function Experience() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const { locale, t } = useLocale();
+  const e = t.experience;
 
   return (
     <section id="experience" ref={containerRef} className="py-24 md:py-32 relative bg-[var(--bg-primary)]">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
 
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-32">
+        <div className="flex flex-col lg:flex-row gap-10 lg:gap-32">
 
           {/* Sticky Left Column */}
           <div className="w-full lg:w-1/4">
-            <div className="sticky top-32">
-              <SectionHeader title="Career Path" index="02" />
+            <div className="lg:sticky lg:top-32">
+              <SectionHeader title={e.eyebrow} index="02" />
               <h2 className="text-4xl md:text-6xl font-display font-bold tracking-tighter leading-tight mb-8" style={{ color: "var(--text-primary)" }}>
-                Experience
+                {e.title}
               </h2>
 
               <p className="text-sm leading-relaxed max-w-sm" style={{ color: "var(--text-secondary)" }}>
-                A track record of building performant, scalable, and beautifully crafted web applications for global audiences.
+                {e.intro}
               </p>
             </div>
           </div>
 
           {/* Scrolling Right Column */}
           <div className="w-full lg:w-3/4 flex flex-col">
-            {experiences.map((exp, i) => (
-              <ExperienceRow key={exp.id} exp={exp} index={i} />
+            {getExperiences(locale).map((exp, i) => (
+              <ExperienceRow key={exp.id} exp={exp} index={i} present={e.present} />
             ))}
             {/* Final Bottom Border */}
             <div className="border-t w-full" style={{ borderColor: "var(--border-subtle)" }} />
