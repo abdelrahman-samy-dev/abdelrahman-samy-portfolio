@@ -48,7 +48,7 @@ export default function CustomCursor() {
       {/* Main Cursor Dot */}
       <motion.div
         className="fixed top-0 left-0 w-3 h-3 -ml-1.5 -mt-1.5 rounded-full pointer-events-none z-[9999] mix-blend-difference"
-        style={{ background: "var(--text-primary)", x, y }}
+        style={{ background: "#f3f1ec", x, y }}
         animate={{ scale: isHovering ? 0 : 1 }}
         transition={{ type: "tween", ease: "backOut", duration: 0.15 }}
       />
@@ -56,7 +56,7 @@ export default function CustomCursor() {
       {/* Trailing Hover Ring */}
       <motion.div
         className="fixed top-0 left-0 w-10 h-10 -ml-5 -mt-5 rounded-full pointer-events-none z-[9998] mix-blend-difference border"
-        style={{ borderColor: "var(--text-primary)", x: ringX, y: ringY }}
+        style={{ borderColor: "#f3f1ec", x: ringX, y: ringY }}
         animate={{
           scale: isHovering ? 1.5 : 1,
           opacity: isHovering ? 1 : 0.3,

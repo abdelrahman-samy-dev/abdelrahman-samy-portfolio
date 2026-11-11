@@ -136,7 +136,7 @@ export default function CommandPalette() {
                     className="flex-1 bg-transparent text-[15px] outline-none"
                     style={{ color: "var(--text-primary)" }}
                   />
-                  <kbd className="px-1.5 py-0.5 rounded text-[10px] font-mono hidden sm:block" style={{ background: "rgba(255,255,255,0.05)", color: "var(--text-tertiary)" }}>
+                  <kbd className="px-1.5 py-0.5 rounded text-[10px] font-mono hidden sm:block" style={{ background: "rgb(var(--ink-rgb) / 0.05)", color: "var(--text-tertiary)" }}>
                     ESC
                   </kbd>
                 </div>
@@ -164,7 +164,7 @@ export default function CommandPalette() {
                             <div
                               className="p-1.5 rounded-lg transition-colors"
                               style={{
-                                background: isSelected ? "var(--accent)" : "rgba(255,255,255,0.03)",
+                                background: isSelected ? "var(--accent)" : "rgb(var(--ink-rgb) / 0.03)",
                                 color: isSelected ? "var(--bg-primary)" : "var(--text-secondary)",
                               }}
                             >
@@ -182,7 +182,7 @@ export default function CommandPalette() {
                             </div>
                           </div>
                           {item.shortcut && (
-                            <kbd className="px-1.5 py-0.5 rounded text-[10px] font-mono hidden sm:block" style={{ background: "rgba(255,255,255,0.05)", color: "var(--text-tertiary)" }}>
+                            <kbd className="px-1.5 py-0.5 rounded text-[10px] font-mono hidden sm:block" style={{ background: "rgb(var(--ink-rgb) / 0.05)", color: "var(--text-tertiary)" }}>
                               {item.shortcut}
                             </kbd>
                           )}

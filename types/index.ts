@@ -19,6 +19,9 @@ export interface Project {
   thumbnail: string;
   /** Cover for the Arabic site, when the image has text in it */
   thumbnailAr?: string;
+  /** Light-theme covers (shown instead of the dark ones when the light theme is on) */
+  thumbnailLight?: string;
+  thumbnailArLight?: string;
   /** Optional phone screenshot shown in a device frame next to the main image */
   mobileShot?: string;
   tags: string[];

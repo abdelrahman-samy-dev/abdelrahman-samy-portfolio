@@ -134,11 +134,20 @@ export default function SelectedWork() {
                         src={project.thumbnail}
                         alt={`${project.title} — ${w.screenshot}`}
                         fill
-                        className="object-cover object-top transition-transform duration-1000 group-hover:scale-[1.03]"
+                        className={`object-cover object-top transition-transform duration-1000 group-hover:scale-[1.03] ${project.thumbnailLight ? "theme-dark-only" : ""}`}
                         sizes="(max-width: 1024px) 100vw, 66vw"
                       />
+                      {project.thumbnailLight && (
+                        <Image
+                          src={project.thumbnailLight}
+                          alt={`${project.title} — ${w.screenshot}`}
+                          fill
+                          className="theme-light-only object-cover object-top transition-transform duration-1000 group-hover:scale-[1.03]"
+                          sizes="(max-width: 1024px) 100vw, 66vw"
+                        />
+                      )}
                       {/* Subtle Overlay Glow */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent pointer-events-none" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none theme-dark-only" />
                     </TiltCard>
                     {project.mobileShot && (
                       <PhoneMockup
@@ -171,7 +180,7 @@ export default function SelectedWork() {
                       <span
                         key={tech}
                         className="px-4 py-2 text-[10px] font-mono tracking-widest uppercase rounded-full border transition-colors hover:border-[var(--accent)] hover:text-[var(--text-primary)]"
-                        style={{ borderColor: "var(--border-subtle)", color: "var(--text-tertiary)", background: "rgba(255,255,255,0.01)" }}
+                        style={{ borderColor: "var(--border-subtle)", color: "var(--text-tertiary)", background: "rgb(var(--ink-rgb) / 0.01)" }}
                       >
                         {tech}
                       </span>

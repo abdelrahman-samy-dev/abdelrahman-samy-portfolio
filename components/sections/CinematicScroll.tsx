@@ -55,6 +55,8 @@ export default function CinematicScroll() {
       drawY = (h - drawH) / 2;
     }
 
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
     ctx.clearRect(0, 0, w, h);
     ctx.drawImage(img, drawX, drawY, drawW, drawH);
   }, [images]);

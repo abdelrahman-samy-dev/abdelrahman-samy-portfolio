@@ -119,7 +119,7 @@ export default function Footer() {
                 rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
                 className="w-10 h-10 flex items-center justify-center rounded-full transition-all duration-300 hover:scale-110"
                 style={{
-                  background: "rgba(255,255,255,0.03)",
+                  background: "rgb(var(--ink-rgb) / 0.03)",
                   border: "1px solid var(--border-subtle)",
                   color: "var(--text-secondary)",
                 }}

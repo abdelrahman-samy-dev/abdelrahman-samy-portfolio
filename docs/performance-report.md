@@ -19,6 +19,15 @@ Lighthouse 12.6.1, local production build (`next build && next start`), Chrome h
 
 **Observed (unthrottled) LCP on the same runs: 0.31 s home, 0.37 s case study.** The 4 s mobile figure is Lighthouse's slow-4G model of downloading the ~300 KB of JavaScript and ~110 KB of fonts that start before first paint.
 
+### Light theme (same build, `?theme=light`)
+| Page | Form | Perf | A11y | BP | SEO | LCP |
+|---|---|---|---|---|---|---|
+| `/` | mobile / desktop | 85 / 99 | 100 / 100 | 100 | 100 | 4.2 s / 0.8 s |
+| `/ar` | mobile / desktop | 83 / 98 | 100 / 100 | 100 | 100 | 4.4 s / 0.8 s |
+| `/work/gloofloo` | mobile / desktop | 92 / 100 | 100 / 100 | 100 | 100 | 3.4 s / 0.7 s |
+
+The theme toggle adds no JavaScript library (CSS module + a 1 KB hook) and no extra image requests: the hidden cover variant is never fetched.
+
 ## What changed
 1. **Intro no longer gates content.** The page renders under the curtain; the curtain lifts once the first frame is in (0.8–1.6 s), instantly with reduced motion. Before, the page stayed `visibility: hidden` until all 96 frames had downloaded (up to 2.6 s cap, far longer on slow links).
 2. **Hero frames stream after `load`**, six at a time, first frame at `fetchpriority=high`; phones fetch every second frame (≈ 0.65 MB instead of 1.3 MB).

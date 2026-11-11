@@ -14,6 +14,7 @@ import CommandPalette from "@/components/shared/CommandPalette";
 import DeveloperMode from "@/components/shared/DeveloperMode";
 import Footer from "@/components/layout/Footer";
 import { profile, mailto } from "@/constants/profile";
+import { themeScript } from "@/lib/theme";
 import "../globals.css";
 
 interface LayoutProps {
@@ -33,7 +34,10 @@ export async function generateMetadata({ params }: LayoutProps): Promise<Metadat
 }
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0a",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+    { media: "(prefers-color-scheme: light)", color: "#f6f2ea" },
+  ],
   width: "device-width",
   initialScale: 1,
 };
@@ -57,7 +61,17 @@ export default async function RootLayout({ children, params }: LayoutProps) {
   if (!isLocale(lang)) notFound();
 
   return (
-    <html lang={lang} dir={dirOf(lang)} className={`${fontVariables} ${arabicFontVariables} antialiased`}>
+    <html
+      lang={lang}
+      dir={dirOf(lang)}
+      data-theme="dark"
+      className={`${fontVariables} ${arabicFontVariables} antialiased`}
+      // the head script may switch data-theme to the saved choice before React hydrates
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="min-h-screen flex flex-col">
         <script
           type="application/ld+json"

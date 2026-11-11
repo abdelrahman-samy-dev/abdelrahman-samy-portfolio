@@ -195,7 +195,7 @@ export default function EngineeringPrinciples() {
               >
                 <span
                   className="block h-1.5 rounded-full transition-all duration-300"
-                  style={{ width: i === active ? 22 : 6, background: i === active ? "var(--accent)" : "rgba(255,255,255,0.18)" }}
+                  style={{ width: i === active ? 22 : 6, background: i === active ? "var(--accent)" : "rgb(var(--ink-rgb) / 0.18)" }}
                 />
               </button>
             ))}
@@ -213,7 +213,7 @@ export default function EngineeringPrinciples() {
       </div>
 
       {/* Progress (desktop) */}
-      <div className="hidden md:block absolute bottom-[12vh] inset-x-16 h-[2px] rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }} aria-hidden="true">
+      <div className="hidden md:block absolute bottom-[12vh] inset-x-16 h-[2px] rounded-full overflow-hidden" style={{ background: "rgb(var(--ink-rgb) / 0.06)" }} aria-hidden="true">
         <div
           ref={barRef}
           className="h-full w-full rounded-full"

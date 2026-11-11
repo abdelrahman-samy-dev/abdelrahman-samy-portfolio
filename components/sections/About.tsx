@@ -6,7 +6,7 @@ import SectionHeader from "@/components/shared/SectionHeader";
 import { useLocale } from "@/providers/LocaleProvider";
 
 function Word({ children, progress, range }: { children: React.ReactNode; progress: MotionValue<number>; range: [number, number] }) {
-  const opacity = useTransform(progress, range, [0.4, 1]);
+  const opacity = useTransform(progress, range, [0.5, 1]);
   const y = useTransform(progress, range, [10, 0]);
   return (
     <motion.span style={{ opacity, y }} className="inline-block">
@@ -55,9 +55,9 @@ export default function About() {
           <div
             className="md:col-span-7 lg:col-span-8 rounded-[var(--radius-xl)] p-8 md:p-14 flex flex-col justify-between group relative overflow-hidden transition-colors duration-700"
             style={{
-              background: "linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)",
+              background: "linear-gradient(180deg, rgb(var(--ink-rgb) / 0.03) 0%, rgb(var(--ink-rgb) / 0.01) 100%)",
               border: "1px solid var(--border-subtle)",
-              boxShadow: "inset 0 1px 1px rgba(255,255,255,0.05)"
+              boxShadow: "inset 0 1px 1px rgb(var(--ink-rgb) / 0.05)"
             }}
             onMouseMove={(e) => {
               const r = e.currentTarget.getBoundingClientRect();
@@ -83,7 +83,7 @@ export default function About() {
                   <span
                     key={tech}
                     className="px-4 py-2 text-[11px] font-medium tracking-wide rounded-full border transition-colors duration-500 hover:border-[var(--accent)] hover:text-[var(--text-primary)]"
-                    style={{ borderColor: "var(--border-subtle)", color: "var(--text-secondary)", background: "rgba(255,255,255,0.01)" }}
+                    style={{ borderColor: "var(--border-subtle)", color: "var(--text-secondary)", background: "rgb(var(--ink-rgb) / 0.01)" }}
                   >
                     {tech}
                   </span>

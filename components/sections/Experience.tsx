@@ -40,7 +40,7 @@ function ExperienceRow({ exp, index, present, toggleLabel }: RowProps) {
       {/* Background Hover Reveal Effect */}
       <div
         className="absolute inset-0 -mx-6 md:-mx-12 px-6 md:px-12 pointer-events-none transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] scale-y-0 origin-bottom group-hover:scale-y-100 group-hover:origin-top"
-        style={{ background: "rgba(255,255,255,0.02)" }}
+        style={{ background: "rgb(var(--ink-rgb) / 0.02)" }}
       />
 
       {/* Year (+ expand control on mouse devices) */}
@@ -122,9 +122,9 @@ function ExperienceRow({ exp, index, present, toggleLabel }: RowProps) {
               key={tech}
               className="px-4 py-1.5 text-[10px] font-mono uppercase tracking-widest rounded-full border transition-colors duration-500"
               style={{
-                borderColor: isHovered ? "rgba(255,255,255,0.15)" : "var(--border-subtle)",
+                borderColor: isHovered ? "rgb(var(--ink-rgb) / 0.15)" : "var(--border-subtle)",
                 color: isHovered ? "var(--text-primary)" : "var(--text-tertiary)",
-                background: isHovered ? "rgba(255,255,255,0.03)" : "transparent"
+                background: isHovered ? "rgb(var(--ink-rgb) / 0.03)" : "transparent"
               }}
             >
               {tech}

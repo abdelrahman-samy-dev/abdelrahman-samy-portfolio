@@ -15,9 +15,8 @@ function SkillCard({ skill }: { skill: Skill }) {
           alt={skill.name}
           width={32}
           height={32}
-          className="skillImage"
+          className={`skillImage ${skill.invert ? "logo-invert" : ""}`}
           loading="lazy"
-          style={{ filter: skill.invert ? "invert(1) brightness(2)" : "none" }}
         />
       </div>
       <span className="skillName">{skill.name}</span>

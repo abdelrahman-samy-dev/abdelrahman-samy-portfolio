@@ -74,10 +74,10 @@ export default function Navigation() {
         aria-label="Primary"
         className="pointer-events-auto flex items-center gap-0.5 md:gap-2 rounded-full p-1 md:p-2 max-w-full overflow-x-auto no-scrollbar"
         style={{
-          background: "rgba(16, 16, 16, 0.72)",
+          background: "var(--glass-bg)",
           backdropFilter: "blur(24px) saturate(1.4)",
           WebkitBackdropFilter: "blur(24px) saturate(1.4)",
-          border: "1px solid rgba(255,255,255,0.08)",
+          border: "1px solid rgb(var(--ink-rgb) / 0.08)",
           boxShadow: "0 12px 40px rgba(0,0,0,0.45)",
         }}
       >

@@ -46,6 +46,7 @@ The site is bilingual — **English** at `/` and **Arabic** at `/ar`, with full 
 
 | Feature | Details |
 |---|---|
+| **Dark / light** | Sky toggle (day ⇄ night) with no flash on load; the hero stays a dark stage, covers switch to light variants; `?theme=light` links |
 | **Bilingual EN / AR** | Locale routes (`/`, `/ar`), `lang`/`dir` on `<html>`, RTL-aware layout, Lalezar + Alexandria for Arabic, `hreflang` alternates |
 | **Cinematic hero** | 96-frame scroll-driven canvas sequence (48 on phones), streamed after the page loads |
 | **Intro** | Drawn "AS" monogram and a curtain reveal, 0.8–1.6 s, over an already-rendered page; skipped with reduced motion |
@@ -105,7 +106,7 @@ The site is bilingual — **English** at `/` and **Arabic** at `/ar`, with full 
 ## Editing
 
 - **Add a project:** add it to `constants/projects.ts`, its Arabic copy to `constants/projects.ar.ts` (same slug), and a WebP screenshot to `public/images/projects/`. Set `featured: true` to show it as a full case on the home page.
-- **Change the accent color:** edit `--accent-rgb` in `app/globals.css`.
+- **Change the accent color:** edit `--accent-rgb` in `app/globals.css` (and the `html[data-theme="light"]` block for the light theme).
 - **Update the CV:** edit `cv.data.json` in the CV source folder, rebuild, and copy both PDFs into `public/cv/` (and the designed one over `public/resume.pdf`).
 - **Contact links:** `constants/profile.ts` is the only place they live.
 - **UI text:** `lib/dictionaries.ts` (both languages side by side).

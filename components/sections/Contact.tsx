@@ -120,17 +120,17 @@ export default function Contact() {
               transition={{ duration: 0.5, delay: 0.2 + i * 0.1 }}
               className="group flex items-start gap-5 p-6 rounded-2xl transition-all duration-300"
               style={{
-                background: "rgba(255,255,255,0.02)",
+                background: "rgb(var(--ink-rgb) / 0.02)",
                 border: "1px solid var(--border-subtle)",
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = "var(--border)";
-                e.currentTarget.style.background = "rgba(255,255,255,0.04)";
+                e.currentTarget.style.background = "rgb(var(--ink-rgb) / 0.04)";
                 e.currentTarget.style.transform = "translateY(-2px)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.borderColor = "var(--border-subtle)";
-                e.currentTarget.style.background = "rgba(255,255,255,0.02)";
+                e.currentTarget.style.background = "rgb(var(--ink-rgb) / 0.02)";
                 e.currentTarget.style.transform = "translateY(0)";
               }}
             >

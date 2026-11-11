@@ -31,7 +31,7 @@ export default function MagneticButton({
 
   const variantStyles: Record<string, React.CSSProperties> = {
     primary: {
-      background: "var(--accent)", color: "#0a0a0a",
+      background: "var(--accent)", color: "var(--on-accent)",
       boxShadow: "0 8px 30px rgb(var(--accent-rgb) / 0.25)",
     },
     secondary: {

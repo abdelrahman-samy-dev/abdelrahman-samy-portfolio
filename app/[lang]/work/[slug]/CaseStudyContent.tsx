@@ -83,7 +83,7 @@ export default function CaseStudyContent({ project }: CaseStudyContentProps) {
           animate={inView ? { y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.05 }}
           className={`relative w-full rounded-2xl mb-14 ${project.mobileShot ? "mb-20" : ""}`}
-          style={{ aspectRatio: "16/10", border: "1px solid var(--border-subtle)", background: "rgba(255,255,255,0.02)" }}
+          style={{ aspectRatio: "16/10", border: "1px solid var(--border-subtle)", background: "rgb(var(--ink-rgb) / 0.02)" }}
         >
           <div className="absolute inset-0 rounded-2xl overflow-hidden">
             <Image
@@ -92,9 +92,18 @@ export default function CaseStudyContent({ project }: CaseStudyContentProps) {
               fill
               loading="eager"
               fetchPriority="high"
-              className="object-cover object-top"
+              className={`object-cover object-top ${project.thumbnailLight ? "theme-dark-only" : ""}`}
               sizes="(max-width: 768px) 100vw, 768px"
             />
+            {project.thumbnailLight && (
+              <Image
+                src={project.thumbnailLight}
+                alt={`${project.title} — ${t.work.screenshot}`}
+                fill
+                className="theme-light-only object-cover object-top"
+                sizes="(max-width: 768px) 100vw, 768px"
+              />
+            )}
           </div>
           {project.mobileShot && (
             <PhoneMockup

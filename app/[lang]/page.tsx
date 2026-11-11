@@ -14,10 +14,12 @@ export default function Home() {
   return (
     <Preloader>
       {/* Hero block: cinematic canvas + overlaid text */}
-      <div className="relative">
+      {/* The portrait sequence is shot on a dark stage — it stays dark in both themes */}
+      <div className="relative stage-dark">
         <CinematicScroll />
         <Hero />
         <ScrollTextOverlay />
+        <div aria-hidden="true" className="stage-fade absolute bottom-0 inset-x-0 h-[45vh] pointer-events-none z-30" />
       </div>
 
       {/* Content sections */}

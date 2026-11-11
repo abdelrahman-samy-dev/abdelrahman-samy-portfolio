@@ -38,13 +38,19 @@
   --accent-glow:      rgb(var(--accent-rgb) / 0.08);
 
   /* Lines & surfaces */
-  --border:         rgba(255, 255, 255, 0.08);
-  --border-subtle:  rgba(255, 255, 255, 0.045);
-  --surface:        rgba(255, 255, 255, 0.025);
-  --surface-hover:  rgba(255, 255, 255, 0.05);
-  --glass-bg:       rgba(14, 14, 14, 0.78);
+  --border:         rgb(var(--ink-rgb) / 0.08);
+  --border-subtle:  rgb(var(--ink-rgb) / 0.045);
+  --surface:        rgb(var(--ink-rgb) / 0.025);
+  --surface-hover:  rgb(var(--ink-rgb) / 0.05);
+  --glass-bg:       rgba(16, 16, 16, 0.72);
   --glass-hover:    rgba(22, 22, 22, 0.9);
-  --glass-border:   rgba(255, 255, 255, 0.06);
+  --glass-border:   rgb(var(--ink-rgb) / 0.06);
+
+  /* Ink = the colour used for hairlines and tints over the page (white on dark, near-black on light) */
+  --ink-rgb:        255 255 255;
+  --page-bg-rgb:    10 10 10;
+  --on-accent:      #0a0a0a;
+  color-scheme: dark;
 
   --success:        #4ade80;
   --error:          #f87171;
@@ -60,6 +66,62 @@
   --ff-display: var(--font-space-grotesk), var(--font-inter), system-ui, sans-serif;
   --ff-mono:    var(--font-jetbrains-mono), ui-monospace, monospace;
 }
+
+/* ── Light theme — same identity on a warm paper stage ── */
+html[data-theme="light"] {
+  --bg-primary:     #f6f2ea;
+  --bg-secondary:   #fffdf9;
+  --bg-tertiary:    #ece6da;
+  --bg-rgb:         246 242 234;
+  --page-bg-rgb:    246 242 234;
+
+  --text-primary:   #17150f;
+  --text-secondary: #4f4a42;
+  --text-tertiary:  #6b655b;
+
+  /* Deeper amber so small accent text keeps ≥ 4.5:1 on paper and on amber chips */
+  --accent-rgb:       143 82 8;
+  --accent-hover:     #9a5a0c;
+  --accent-secondary: #c98a2c;
+  --accent-subtle:    rgb(var(--accent-rgb) / 0.09);
+  --accent-border:    rgb(var(--accent-rgb) / 0.3);
+  --accent-glow:      rgb(var(--accent-rgb) / 0.1);
+  --on-accent:        #ffffff;
+
+  --ink-rgb:        23 21 15;
+  --border:         rgb(23 21 15 / 0.12);
+  --border-subtle:  rgb(23 21 15 / 0.07);
+  --surface:        rgb(23 21 15 / 0.025);
+  --surface-hover:  rgb(23 21 15 / 0.05);
+  --glass-bg:       rgb(255 253 249 / 0.82);
+  --glass-hover:    rgb(255 253 249 / 0.92);
+  --glass-border:   rgb(23 21 15 / 0.08);
+  color-scheme: light;
+}
+
+/* The portrait sequence is shot on a dark stage, so the hero stays dark in
+   both themes and fades into the page underneath. */
+.stage-dark {
+  --bg-primary:     #0a0a0a;
+  --bg-rgb:         10 10 10;
+  --text-primary:   #f3f1ec;
+  --text-secondary: #a8a49c;
+  --text-tertiary:  #8b867e;
+  --accent-rgb:     233 162 59;
+  --ink-rgb:        255 255 255;
+  background: #0a0a0a;
+  color: var(--text-primary);
+}
+.stage-fade {
+  background: linear-gradient(to bottom, rgb(10 10 10 / 0), rgb(var(--page-bg-rgb)));
+}
+
+/* Theme-specific artwork */
+html[data-theme="light"] .theme-dark-only { display: none !important; }
+html:not([data-theme="light"]) .theme-light-only { display: none !important; }
+/* Monochrome logos are drawn dark; lighten them only on the dark theme */
+html:not([data-theme="light"]) .logo-invert { filter: invert(1) brightness(2); }
+html[data-theme="light"] .noise-overlay { opacity: 0.025; }
 
 /* ── Arabic ── */
 html[lang="ar"] {
@@ -113,8 +175,8 @@ body {
 
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
+::-webkit-scrollbar-thumb { background: rgb(var(--ink-rgb) / 0.08); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgb(var(--ink-rgb) / 0.15); }
 
 /* ── Glass Card ── */
 .glass-card {
@@ -320,7 +382,7 @@ body {
   gap: 0.875rem;
   padding: 1rem 1.5rem;
   border-radius: 1rem;
-  background: rgba(255, 255, 255, 0.025);
+  background: rgb(var(--ink-rgb) / 0.025);
   border: 1px solid var(--border-subtle);
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: default;
@@ -330,7 +392,7 @@ body {
 }
 
 .skillCard:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgb(var(--ink-rgb) / 0.06);
   border-color: var(--accent);
   transform: translateY(-3px);
   box-shadow:
@@ -376,9 +438,9 @@ body {
 
 /* ── Principle cards ── */
 .principle-card {
-  background: linear-gradient(180deg, rgba(255,255,255,0.045) 0%, rgba(255,255,255,0.012) 100%);
+  background: linear-gradient(180deg, rgb(var(--ink-rgb) / 0.045) 0%, rgb(var(--ink-rgb) / 0.012) 100%);
   border: 1px solid var(--border);
-  box-shadow: inset 0 1px 1px rgba(255,255,255,0.05), 0 20px 40px rgba(0,0,0,0.35);
+  box-shadow: inset 0 1px 1px rgb(var(--ink-rgb) / 0.05), 0 20px 40px rgba(0,0,0,0.35);
   transition: border-color 0.5s ease, box-shadow 0.5s ease, background 0.5s ease;
   will-change: transform;
 }
@@ -388,8 +450,8 @@ body {
 .principle-card.is-active,
 .principle-card:hover {
   border-color: var(--accent-border);
-  background: linear-gradient(180deg, rgb(var(--accent-rgb) / 0.07) 0%, rgba(255,255,255,0.015) 100%);
-  box-shadow: inset 0 1px 1px rgba(255,255,255,0.06), 0 30px 60px rgba(0,0,0,0.45), 0 0 50px rgb(var(--accent-rgb) / 0.08);
+  background: linear-gradient(180deg, rgb(var(--accent-rgb) / 0.07) 0%, rgb(var(--ink-rgb) / 0.015) 100%);
+  box-shadow: inset 0 1px 1px rgb(var(--ink-rgb) / 0.06), 0 30px 60px rgba(0,0,0,0.45), 0 0 50px rgb(var(--accent-rgb) / 0.08);
 }
 .principle-card.is-active .card-num,
 .principle-card:hover .card-num { opacity: 0.45; }
@@ -403,7 +465,7 @@ body {
 @media (max-width: 767px) {
   .principle-card[data-active="true"] {
     border-color: var(--accent-border);
-    background: linear-gradient(180deg, rgb(var(--accent-rgb) / 0.07) 0%, rgba(255,255,255,0.015) 100%);
+    background: linear-gradient(180deg, rgb(var(--accent-rgb) / 0.07) 0%, rgb(var(--ink-rgb) / 0.015) 100%);
   }
   .principle-card[data-active="true"] .card-num { opacity: 0.45; }
   .principle-card[data-active="true"] .card-line { opacity: 1; }

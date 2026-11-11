@@ -147,3 +147,33 @@ test.describe("interaction", () => {
     await expect(page.locator('[role="status"]')).toHaveCount(0, { timeout: 3_000 });
   });
 });
+
+test.describe("theme", () => {
+  test("dark by default; the sky toggle switches to light and remembers it", async ({ page }) => {
+    await page.goto("/");
+    await waitForIntro(page);
+    const html = page.locator("html");
+    await expect(html).toHaveAttribute("data-theme", "dark");
+    const toggle = page.locator('input[role="switch"]');
+    await expect(toggle).toBeChecked();
+    await toggle.click({ force: true });
+    await expect(html).toHaveAttribute("data-theme", "light");
+    await page.reload();
+    await waitForIntro(page);
+    await expect(html).toHaveAttribute("data-theme", "light");
+    await expect(toggle).not.toBeChecked();
+    // the page background really changed
+    const bg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
+    expect(bg).toBe("rgb(246, 242, 234)");
+  });
+
+  test("?theme=light opens the light theme, Arabic included", async ({ page }) => {
+    await page.goto("/ar?theme=light");
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+    await waitForIntro(page);
+    // the light cover is the one shown
+    await page.locator("#work .project-row").first().scrollIntoViewIfNeeded();
+    await expect(page.locator("#work img.theme-light-only").first()).toBeVisible();
+    await expect(page.locator("#work img.theme-dark-only").first()).toBeHidden();
+  });
+});

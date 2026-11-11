@@ -11,6 +11,7 @@ const en = {
   },
   switchLanguage: "العربية",
   switchLanguageLabel: "Switch to Arabic",
+  themeLabel: "Dark theme",
   preloader: { label: "Loading", name: "Abdelrahman Samy Ali", role: "Software Engineer" },
   nav: { about: "About", experience: "Experience", work: "Work", tech: "Tech Stack", contact: "Contact" },
   hero: {
@@ -150,6 +151,7 @@ const ar: Dictionary = {
   },
   switchLanguage: "English",
   switchLanguageLabel: "التبديل إلى الإنجليزية",
+  themeLabel: "الوضع الداكن",
   preloader: { label: "جارٍ التحميل", name: "عبدالرحمن سامي علي", role: "مهندس برمجيات" },
   nav: { about: "نبذة", experience: "الخبرة", work: "الأعمال", tech: "التقنيات", contact: "تواصل" },
   hero: {

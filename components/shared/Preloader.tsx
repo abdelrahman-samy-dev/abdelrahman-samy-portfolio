@@ -168,7 +168,7 @@ export default function Preloader({ children }: { children: React.ReactNode }) {
               {/* Mark + progress ring */}
               <div className="relative w-[120px] h-[120px] flex items-center justify-center">
                 <svg viewBox="0 0 100 100" className="absolute inset-0 -rotate-90" aria-hidden="true">
-                  <circle cx="50" cy="50" r="46" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1.5" />
+                  <circle cx="50" cy="50" r="46" fill="none" stroke="rgb(var(--ink-rgb) / 0.06)" strokeWidth="1.5" />
                   <circle
                     cx="50"
                     cy="50"

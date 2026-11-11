@@ -53,7 +53,7 @@ export default function Hero() {
             </span>
             <span className="text-[11px] font-medium tracking-widest uppercase transition-colors duration-500 group-hover:text-[var(--text-primary)] relative" style={{ color: "var(--text-secondary)" }}>
               {h.now}
-              <span className="absolute -bottom-1 end-0 w-full h-[1px] bg-white/20 group-hover:bg-[var(--accent)] transition-colors duration-500" />
+              <span className="absolute -bottom-1 end-0 w-full h-[1px] bg-[rgb(var(--ink-rgb)/0.2)] group-hover:bg-[var(--accent)] transition-colors duration-500" />
             </span>
           </button>
         </motion.div>

@@ -24,7 +24,12 @@ export const publishedProjects = projects.filter((p) => p.status !== "archived")
 /** Published projects with their text in the requested language (English is the source) */
 export function getProjects(locale: Locale): Project[] {
   if (locale === "en") return publishedProjects;
-  return publishedProjects.map((p) => ({ ...p, ...spaceWaw(projectsAr[p.slug]), thumbnail: p.thumbnailAr ?? p.thumbnail }));
+  return publishedProjects.map((p) => ({
+    ...p,
+    ...spaceWaw(projectsAr[p.slug]),
+    thumbnail: p.thumbnailAr ?? p.thumbnail,
+    thumbnailLight: p.thumbnailArLight ?? p.thumbnailLight,
+  }));
 }
 
 export function getProject(locale: Locale, slug: string): Project | undefined {
