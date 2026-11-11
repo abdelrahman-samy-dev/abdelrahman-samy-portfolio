@@ -18,10 +18,10 @@ Archived records stay in `constants/projects.ts` with `status: "archived"`; set 
 ## Visual sources (all real, no generated screenshots)
 | Image | Source | Captured |
 |---|---|---|
-| `gloofloo-en/ar.webp` (covers) | live gloofloo.com/en and /ar landing + GlooFloo Flutter app (timeline screen) | 11 Nov 2026 (landing), 13 Oct 2026 (app) |
+| `gloofloo-cover-en/ar.webp` | live gloofloo.com/en and /ar landing + GlooFloo Flutter app (timeline screen) | 11 Nov 2026 (landing), 13 Oct 2026 (app) |
 | `gloofloo-home.webp`, `gloofloo-board.webp` | GlooFloo web app after the November redesign, local preview with invented demo data (company «شركة الأفق للتقنية») | 7 Nov 2026 |
 | `gloofloo-mobile.webp` | GlooFloo Flutter app, dark, Arabic | 13 Oct 2026 |
-| `rawaylo-en/ar.webp` (covers) | live rawaylo.com/en and /ar, desktop + mobile | 11 Nov 2026 |
+| `rawaylo-cover-en/ar.webp` | live rawaylo.com/en and /ar, desktop + mobile | 11 Nov 2026 |
 | `rawaylo-mobile.webp` | live rawaylo.com/ar on a phone | 11 Nov 2026 |
 | `rawaylo-inbox.webp` | Rawaylo dashboard inbox, demo store, local | 22 Oct 2026 — the dashboard has evolved since; replace when a clean demo account is available |
 
