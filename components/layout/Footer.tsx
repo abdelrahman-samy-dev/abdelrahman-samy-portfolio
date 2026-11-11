@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { ArrowUp, Mail } from "lucide-react";
 import { useLocale } from "@/providers/LocaleProvider";
 import Monogram from "@/components/shared/Monogram";
+import { profile, mailto } from "@/constants/profile";
 
 /* ── Brand SVG Icons (lucide-react doesn't include brand icons) ── */
 function GithubIcon() {
@@ -32,10 +33,10 @@ function WhatsAppIcon() {
 
 /* ── Data ── */
 const socials = [
-  { icon: GithubIcon, label: "GitHub", href: "https://github.com/abdelrahman-samy-dev" },
-  { icon: LinkedInIcon, label: "LinkedIn", href: "https://linkedin.com/in/abdelrahman-samy-dev" },
-  { icon: WhatsAppIcon, label: "WhatsApp", href: "https://wa.me/201141393811" },
-  { icon: Mail, label: "Email", href: "mailto:abdelrahman.samy.dev@outlook.com" },
+  { icon: GithubIcon, label: "GitHub", href: profile.github },
+  { icon: LinkedInIcon, label: "LinkedIn", href: profile.linkedin },
+  { icon: WhatsAppIcon, label: "WhatsApp", href: profile.whatsapp },
+  { icon: Mail, label: "Email", href: mailto },
 ];
 
 /* ── Scroll-to-Top with circular progress ring ── */

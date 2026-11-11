@@ -183,7 +183,7 @@ export default function EngineeringPrinciples() {
             <MoveHorizontal size={14} style={{ color: "var(--accent)" }} />
             {p.swipe}
           </span>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center">
             {principles.map((item, i) => (
               <button
                 key={item.num}
@@ -191,9 +191,13 @@ export default function EngineeringPrinciples() {
                 onClick={() => goTo(i)}
                 aria-label={`${p.card} ${item.num}`}
                 aria-current={i === active ? "true" : undefined}
-                className="h-1.5 rounded-full transition-all duration-300"
-                style={{ width: i === active ? 22 : 6, background: i === active ? "var(--accent)" : "rgba(255,255,255,0.18)" }}
-              />
+                className="h-6 min-w-6 px-1 flex items-center justify-center"
+              >
+                <span
+                  className="block h-1.5 rounded-full transition-all duration-300"
+                  style={{ width: i === active ? 22 : 6, background: i === active ? "var(--accent)" : "rgba(255,255,255,0.18)" }}
+                />
+              </button>
             ))}
           </div>
         </div>

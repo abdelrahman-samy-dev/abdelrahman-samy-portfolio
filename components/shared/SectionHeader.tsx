@@ -16,7 +16,7 @@ export default function SectionHeader({ title, index = "01" }: SectionHeaderProp
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       className="flex items-center gap-4 mb-12"
     >
-      <span className="text-[10px] font-mono tracking-widest opacity-40">
+      <span className="text-[10px] font-mono tracking-widest" style={{ color: "var(--text-tertiary)" }}>
         {index} /
       </span>
       <h2 className="text-[11px] font-medium tracking-[0.3em] uppercase" style={{ color: "var(--text-primary)" }}>

@@ -5,9 +5,9 @@ type Split = [string, string, string];
 
 const en = {
   meta: {
-    title: "Abdelrahman Samy Ali — Software Engineer",
+    title: "Abdelrahman Samy Ali — Software Engineer, Full-Stack & Mobile",
     description:
-      "Software Engineer (full-stack & mobile) building web, API and mobile products with TypeScript, React, Node.js and Flutter. Currently at Yamama Software on GlooFloo and Rawaylo.",
+      "Software engineer building web, API and mobile products end to end — currently GlooFloo and Rawaylo at Yamama Software. TypeScript, React, Node.js, PostgreSQL and Flutter.",
   },
   switchLanguage: "العربية",
   switchLanguageLabel: "Switch to Arabic",
@@ -16,7 +16,7 @@ const en = {
   hero: {
     roleLabel: "Role",
     role: "Software Engineer",
-    focus: "Full-Stack · Mobile",
+    focus: "Full-Stack · Mobile · Product",
     location: "Cairo, EG",
     nowLabel: "Currently",
     now: "Building GlooFloo & Rawaylo",
@@ -24,7 +24,7 @@ const en = {
     lastName: "SAMY ALI",
     intro: "Software engineer building web, API and mobile products with TypeScript, React, Node.js & Flutter.",
     viewWork: "[ View Work ]",
-    downloadCv: "[ Download CV ]",
+    downloadCv: "[ View CV ]",
   },
   overlay: [
     ["Building ", "Real", "\nProducts"],
@@ -39,7 +39,7 @@ const en = {
     yearsLabel: "Experience",
     years: "Years building software.",
     productsLabel: "Products",
-    products: "SaaS products at Yamama — one live, one in build.",
+    products: "Live SaaS products I work on at Yamama Software.",
   },
   experience: {
     eyebrow: "Career Path",
@@ -88,14 +88,15 @@ const en = {
   contact: {
     eyebrow: "06 / Get In Touch",
     title: ["Let's Build", "Something Great."],
-    intro: "Have a product to build, a role, or just a question? I'm happy to talk — the quickest way is WhatsApp or email.",
+    intro: "Have a product in mind, a team to collaborate with, or a question about my work? WhatsApp or email reaches me fastest.",
     whatsapp: "WhatsApp",
     whatsappHint: "Quickest way to reach me",
-    whatsappText: "Hi Abdelrahman, I'd like to talk with you.",
+    whatsappText: "Hi Abdelrahman, I'd like to talk about a project.",
     email: "Email",
     emailHint: "For detailed inquiries",
-    location: "Cairo, Egypt · Open to Remote",
-    resume: "Resume",
+    location: "Cairo, Egypt · Building for the Egyptian & Saudi markets",
+    resume: "CV",
+    resumeAts: "CV (ATS)",
   },
   footer: { name: "Abdelrahman Samy Ali.", backToTop: "Back to top" },
   caseStudy: {
@@ -129,8 +130,10 @@ const en = {
       contact: { label: "Contact" },
       github: { label: "GitHub", description: "View source code" },
       linkedin: { label: "LinkedIn", description: "Professional profile" },
-      resume: { label: "Resume", description: "Download CV (PDF)" },
+      resume: { label: "CV", description: "View CV (PDF)" },
+      "resume-ats": { label: "CV (ATS)", description: "Plain single-column CV for application systems" },
       gloofloo: { label: "GlooFloo", description: "Live product — gloofloo.com" },
+      rawaylo: { label: "Rawaylo", description: "Live product — rawaylo.com" },
       language: { label: "العربية", description: "Read this site in Arabic" },
       email: { label: "Send Email", description: "abdelrahman.samy.dev@outlook.com" },
     } as Record<string, { label: string; description?: string }>,
@@ -141,9 +144,9 @@ export type Dictionary = typeof en;
 
 const ar: Dictionary = {
   meta: {
-    title: "عبدالرحمن سامي علي — مهندس برمجيات",
+    title: "عبدالرحمن سامي علي — مهندس برمجيات، تطوير متكامل وتطبيقات جوال",
     description:
-      "مهندس برمجيات (تطوير متكامل وتطبيقات جوال) يبني منتجات الويب والخوادم والجوال باستخدام TypeScript و React و Node.js و Flutter. يعمل حاليًا في Yamama Software على GlooFloo و Rawaylo.",
+      "مهندس برمجيات يبني منتجات الويب والخوادم والجوال من البداية إلى النهاية، ويعمل حاليًا على GlooFloo و Rawaylo في Yamama Software باستخدام TypeScript و React و Node.js و PostgreSQL و Flutter.",
   },
   switchLanguage: "English",
   switchLanguageLabel: "التبديل إلى الإنجليزية",
@@ -152,7 +155,7 @@ const ar: Dictionary = {
   hero: {
     roleLabel: "الدور",
     role: "مهندس برمجيات",
-    focus: "تطوير متكامل · تطبيقات جوال",
+    focus: "تطوير متكامل · جوال · منتجات",
     location: "القاهرة، مصر",
     nowLabel: "حاليًا",
     now: "أعمل على GlooFloo و Rawaylo",
@@ -160,7 +163,7 @@ const ar: Dictionary = {
     lastName: "سامي علي",
     intro: "مهندس برمجيات أبني منتجات الويب والخوادم وتطبيقات الجوال باستخدام TypeScript · React · Node.js · Flutter.",
     viewWork: "[ استعرض أعمالي ]",
-    downloadCv: "[ تحميل السيرة الذاتية ]",
+    downloadCv: "[ السيرة الذاتية ]",
   },
   overlay: [
     ["أبني ", "منتجات", "\nحقيقية"],
@@ -175,7 +178,7 @@ const ar: Dictionary = {
     yearsLabel: "الخبرة",
     years: "سنوات في بناء البرمجيات.",
     productsLabel: "المنتجات",
-    products: "منتجا SaaS في Yamama Software: أحدهما منشور والآخر قيد البناء.",
+    products: "منتجا SaaS منشوران أعمل عليهما في Yamama Software.",
   },
   experience: {
     eyebrow: "المسار المهني",
@@ -224,14 +227,15 @@ const ar: Dictionary = {
   contact: {
     eyebrow: "06 / تواصل معي",
     title: ["لنبنِ معًا", "شيئًا رائعًا."],
-    intro: "لديك منتج تريد بناءه، أو فرصة عمل، أو مجرد سؤال؟ يسعدني التواصل، وأسرع طريقة هي واتساب أو البريد الإلكتروني.",
+    intro: "لديك فكرة منتج، أو فريق تودّ التعاون معه، أو سؤال عن أعمالي؟ أسرع وسيلة للتواصل هي واتساب أو البريد الإلكتروني.",
     whatsapp: "واتساب",
     whatsappHint: "أسرع طريقة للتواصل",
-    whatsappText: "مرحبًا عبدالرحمن، أودّ التحدث معك.",
+    whatsappText: "مرحبًا عبدالرحمن، أودّ التحدث معك بخصوص مشروع.",
     email: "البريد الإلكتروني",
     emailHint: "للاستفسارات التفصيلية",
-    location: "القاهرة، مصر · متاح للعمل عن بُعد",
+    location: "القاهرة، مصر · أبني منتجات للسوقين المصري والسعودي",
     resume: "السيرة الذاتية",
+    resumeAts: "نسخة ATS",
   },
   footer: { name: "عبدالرحمن سامي علي.", backToTop: "العودة إلى الأعلى" },
   caseStudy: {
@@ -265,8 +269,10 @@ const ar: Dictionary = {
       contact: { label: "تواصل" },
       github: { label: "GitHub", description: "عرض الكود المصدري" },
       linkedin: { label: "LinkedIn", description: "الملف المهني" },
-      resume: { label: "السيرة الذاتية", description: "تحميل ملف PDF" },
+      resume: { label: "السيرة الذاتية", description: "عرض ملف PDF" },
+      "resume-ats": { label: "السيرة الذاتية (ATS)", description: "نسخة نصية بعمود واحد لأنظمة التوظيف" },
       gloofloo: { label: "GlooFloo", description: "منتج منشور — gloofloo.com" },
+      rawaylo: { label: "Rawaylo", description: "منتج منشور — rawaylo.com" },
       language: { label: "English", description: "Read this site in English" },
       email: { label: "إرسال بريد", description: "abdelrahman.samy.dev@outlook.com" },
     },

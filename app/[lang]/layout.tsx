@@ -13,6 +13,7 @@ import CustomCursor from "@/components/layout/CustomCursor";
 import CommandPalette from "@/components/shared/CommandPalette";
 import DeveloperMode from "@/components/shared/DeveloperMode";
 import Footer from "@/components/layout/Footer";
+import { profile, mailto } from "@/constants/profile";
 import "../globals.css";
 
 interface LayoutProps {
@@ -41,13 +42,14 @@ const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Abdelrahman Samy Ali",
+  alternateName: "عبدالرحمن سامي علي",
   jobTitle: "Software Engineer",
-  worksFor: { "@type": "Organization", name: "Yamama Software" },
+  worksFor: { "@type": "Organization", name: "Yamama Software", url: "https://yamamasoftware.com" },
   url: siteConfig.url,
-  email: "mailto:abdelrahman.samy.dev@outlook.com",
+  email: mailto,
   address: { "@type": "PostalAddress", addressLocality: "Cairo", addressCountry: "EG" },
-  sameAs: ["https://github.com/abdelrahman-samy-dev", "https://linkedin.com/in/abdelrahman-samy-dev"],
-  knowsAbout: ["TypeScript", "React", "Next.js", "Node.js", "PostgreSQL", "Flutter"],
+  sameAs: [profile.github, profile.linkedin],
+  knowsAbout: ["Software Engineering", "TypeScript", "React", "Next.js", "Node.js", "PostgreSQL", "Flutter", "AI integration"],
 };
 
 export default async function RootLayout({ children, params }: LayoutProps) {

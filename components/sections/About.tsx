@@ -6,7 +6,7 @@ import SectionHeader from "@/components/shared/SectionHeader";
 import { useLocale } from "@/providers/LocaleProvider";
 
 function Word({ children, progress, range }: { children: React.ReactNode; progress: MotionValue<number>; range: [number, number] }) {
-  const opacity = useTransform(progress, range, [0.15, 1]);
+  const opacity = useTransform(progress, range, [0.4, 1]);
   const y = useTransform(progress, range, [10, 0]);
   return (
     <motion.span style={{ opacity, y }} className="inline-block">

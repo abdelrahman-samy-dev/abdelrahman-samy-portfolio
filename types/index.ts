@@ -9,8 +9,11 @@ export interface Project {
   category: "web" | "mobile" | "open-source" | "design";
   /** Short label shown under the title, e.g. "SaaS · Web, API & Mobile" */
   label?: string;
-  /** Production state — "in-development" shows a badge instead of a live link */
-  status?: "live" | "in-development";
+  /**
+   * Production state. "in-development" shows a badge; "archived" keeps the
+   * record in the repo but hides it from the site, the sitemap and the routes.
+   */
+  status?: "live" | "in-development" | "archived";
   /** My role on the project, for team / company work */
   role?: string;
   thumbnail: string;
@@ -92,9 +95,4 @@ export interface CommandItem {
   category: "navigation" | "external" | "action";
 }
 
-export interface DockItem {
-  label: string;
-  href: string;
-  icon: string;
-  external?: boolean;
-}
+

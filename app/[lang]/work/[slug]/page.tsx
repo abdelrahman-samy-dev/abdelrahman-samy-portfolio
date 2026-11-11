@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
-import { projects } from "@/constants/projects";
-import { getProject } from "@/constants/content";
+import { getProject, publishedProjects } from "@/constants/content";
 import { isLocale, locales } from "@/lib/i18n";
 import { languageAlternates } from "@/lib/metadata";
 import { getDictionary } from "@/lib/dictionaries";
@@ -14,7 +13,7 @@ interface CaseStudyPageProps {
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return locales.flatMap((lang) => projects.map((project) => ({ lang, slug: project.slug })));
+  return locales.flatMap((lang) => publishedProjects.map((project) => ({ lang, slug: project.slug })));
 }
 
 export async function generateMetadata({ params }: CaseStudyPageProps): Promise<Metadata> {

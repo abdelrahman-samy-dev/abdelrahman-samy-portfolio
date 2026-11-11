@@ -5,6 +5,7 @@ import { motion, useInView } from "motion/react";
 import { Mail, ArrowUpRight, MapPin, FileText } from "lucide-react";
 import { useLocale } from "@/providers/LocaleProvider";
 import ContactOrb from "@/components/three/ContactOrb";
+import { profile, mailto } from "@/constants/profile";
 
 /* ── Brand SVG Icons ── */
 function WhatsAppIcon({ size = 20 }: { size?: number }) {
@@ -37,12 +38,12 @@ const socials = [
   {
     icon: GithubIcon,
     label: "GitHub",
-    href: "https://github.com/abdelrahman-samy-dev",
+    href: profile.github,
   },
   {
     icon: LinkedInIcon,
     label: "LinkedIn",
-    href: "https://linkedin.com/in/abdelrahman-samy-dev",
+    href: profile.linkedin,
   },
 ];
 
@@ -55,15 +56,15 @@ export default function Contact() {
     {
       icon: WhatsAppIcon,
       label: c.whatsapp,
-      value: "+20 114 139 3811",
-      href: `https://wa.me/201141393811?text=${encodeURIComponent(c.whatsappText)}`,
+      value: profile.phone,
+      href: `${profile.whatsapp}?text=${encodeURIComponent(c.whatsappText)}`,
       description: c.whatsappHint,
     },
     {
       icon: Mail,
       label: c.email,
-      value: "abdelrahman.samy.dev@outlook.com",
-      href: "mailto:abdelrahman.samy.dev@outlook.com",
+      value: profile.email,
+      href: mailto,
       description: c.emailHint,
     },
   ];
@@ -204,13 +205,22 @@ export default function Contact() {
           {/* Social Links */}
           <div className="flex flex-wrap items-center gap-3">
             <a
-              href="/resume.pdf"
+              href={profile.cv.visual}
               target="_blank"
               rel="noopener noreferrer"
               className="social-icon flex items-center gap-2 px-4 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-200"
             >
               <FileText size={16} />
               <span>{c.resume}</span>
+            </a>
+            <a
+              href={profile.cv.ats}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-icon flex items-center gap-2 px-4 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-200"
+            >
+              <FileText size={16} />
+              <span>{c.resumeAts}</span>
             </a>
             {socials.map((social) => (
               <a

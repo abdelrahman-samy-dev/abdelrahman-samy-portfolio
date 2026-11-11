@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useCallback } from "react";
-import { usePreloadedImages, TOTAL_FRAMES } from "@/components/shared/Preloader";
+import { usePreloadedImages } from "@/components/shared/Preloader";
 
 const isReady = (img?: HTMLImageElement) => !!img && img.complete && img.naturalWidth > 0;
 
@@ -79,10 +79,9 @@ export default function CinematicScroll() {
       const containerHeight = rect.height - window.innerHeight;
 
       const scrollProgress = Math.min(Math.max(-containerTop / containerHeight, 0), 1);
-      const frameIndex = Math.min(
-        Math.floor(scrollProgress * (TOTAL_FRAMES - 1)),
-        TOTAL_FRAMES - 1
-      );
+      // Phones load every second frame, so map onto however many frames exist
+      const last = images.length - 1;
+      const frameIndex = Math.min(Math.floor(scrollProgress * last), last);
 
       if (frameIndex !== currentFrameRef.current) {
         currentFrameRef.current = frameIndex;
@@ -93,7 +92,7 @@ export default function CinematicScroll() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [loaded, drawFrame]);
+  }, [loaded, drawFrame, images.length]);
 
   // Resize handler
   useEffect(() => {

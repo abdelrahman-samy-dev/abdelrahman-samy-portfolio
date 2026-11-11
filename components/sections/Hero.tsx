@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useInView } from "motion/react";
 import { ArrowDown } from "lucide-react";
 import { useLocale } from "@/providers/LocaleProvider";
+import { profile } from "@/constants/profile";
 
 const nameStyle = { fontSize: "clamp(3rem, 11vw, 12rem)", color: "var(--text-primary)" };
 
@@ -61,8 +62,8 @@ export default function Hero() {
       {/* Main Name - Massive Typography */}
       <div className="w-full flex flex-col pointer-events-auto">
         <motion.h1
-          initial={{ y: 40, opacity: 0 }}
-          animate={inView ? { y: 0, opacity: 1 } : {}}
+          initial={{ y: 40 }}
+          animate={inView ? { y: 0 } : {}}
           transition={{ duration: 0.9, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="font-display font-bold leading-[0.85] tracking-tighter"
           style={nameStyle}
@@ -72,8 +73,8 @@ export default function Hero() {
 
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between mt-4 md:mt-2 gap-6 md:gap-6">
           <motion.p
-            initial={{ y: 40, opacity: 0 }}
-            animate={inView ? { y: 0, opacity: 1 } : {}}
+            initial={{ y: 40 }}
+            animate={inView ? { y: 0 } : {}}
             transition={{ duration: 0.9, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="order-1 md:order-2 font-display font-bold leading-[0.85] tracking-tighter md:text-end"
             style={nameStyle}
@@ -83,9 +84,9 @@ export default function Hero() {
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.8 }}
+            initial={{ y: 16 }}
+            animate={inView ? { y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="order-2 md:order-1 flex flex-col gap-5 max-w-[300px]"
           >
             <p className="text-[13px] md:text-[14px] leading-relaxed" style={{ color: "var(--text-secondary)" }}>
@@ -100,7 +101,7 @@ export default function Hero() {
                 {h.viewWork}
               </button>
               <a
-                href="/resume.pdf"
+                href={profile.cv.visual}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-fit text-[11px] font-mono tracking-widest uppercase transition-colors hover:text-[var(--accent)]"

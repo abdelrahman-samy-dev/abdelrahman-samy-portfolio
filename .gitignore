@@ -42,3 +42,7 @@ next-env.d.ts
 
 # local logs
 *.log
+
+# playwright
+/test-results/
+/playwright-report/

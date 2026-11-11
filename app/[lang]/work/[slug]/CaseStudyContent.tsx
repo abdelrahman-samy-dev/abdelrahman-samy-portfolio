@@ -42,8 +42,8 @@ export default function CaseStudyContent({ project }: CaseStudyContentProps) {
 
         {/* Header */}
         <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={inView ? { y: 0, opacity: 1 } : {}}
+          initial={{ y: 20 }}
+          animate={inView ? { y: 0 } : {}}
           transition={{ duration: 0.5 }}
           className="mb-12"
         >
@@ -79,8 +79,8 @@ export default function CaseStudyContent({ project }: CaseStudyContentProps) {
 
         {/* Screenshot */}
         <motion.div
-          initial={{ y: 15, opacity: 0 }}
-          animate={inView ? { y: 0, opacity: 1 } : {}}
+          initial={{ y: 15 }}
+          animate={inView ? { y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.05 }}
           className={`relative w-full rounded-2xl mb-14 ${project.mobileShot ? "mb-20" : ""}`}
           style={{ aspectRatio: "16/10", border: "1px solid var(--border-subtle)", background: "rgba(255,255,255,0.02)" }}
@@ -90,7 +90,8 @@ export default function CaseStudyContent({ project }: CaseStudyContentProps) {
               src={project.thumbnail}
               alt={`${project.title} — ${t.work.screenshot}`}
               fill
-              priority
+              loading="eager"
+              fetchPriority="high"
               className="object-cover object-top"
               sizes="(max-width: 768px) 100vw, 768px"
             />
@@ -185,20 +186,22 @@ export default function CaseStudyContent({ project }: CaseStudyContentProps) {
         {project.screenshots.length > 0 && (
           <div className="mb-14">
             <h2 className="text-xl font-semibold mb-6" style={{ color: "var(--text-primary)" }}>{c.screens}</h2>
-            <div className="flex flex-col sm:flex-row items-center sm:items-end gap-6">
-              {project.screenshots.map((src) =>
-                src.includes("mobile") ? (
-                  <PhoneMockup key={src} src={src} alt={`${project.title} — ${t.work.mobileScreenshot}`} className="relative w-[46%] sm:w-[26%] max-w-[200px] shrink-0" />
-                ) : (
-                  <div
-                    key={src}
-                    className="relative w-full rounded-2xl overflow-hidden"
-                    style={{ aspectRatio: "16/10", border: "1px solid var(--border-subtle)", background: "var(--surface)" }}
-                  >
-                    <Image src={src} alt={`${project.title} — ${t.work.screenshot}`} fill className="object-cover object-top" sizes="(max-width: 768px) 100vw, 560px" />
-                  </div>
-                )
-              )}
+            {/* Web screens full width, phone screens side by side underneath */}
+            <div className="flex flex-col gap-6">
+              {project.screenshots.filter((src) => !src.includes("mobile")).map((src) => (
+                <div
+                  key={src}
+                  className="relative w-full rounded-2xl overflow-hidden"
+                  style={{ aspectRatio: "1440/1000", border: "1px solid var(--border-subtle)", background: "var(--surface)" }}
+                >
+                  <Image src={src} alt={`${project.title} — ${t.work.screenshot}`} fill className="object-cover object-top" sizes="(max-width: 768px) 100vw, 768px" />
+                </div>
+              ))}
+              <div className="flex justify-center gap-6">
+                {project.screenshots.filter((src) => src.includes("mobile")).map((src) => (
+                  <PhoneMockup key={src} src={src} alt={`${project.title} — ${t.work.mobileScreenshot}`} className="relative w-[46%] sm:w-[34%] max-w-[240px] shrink-0" />
+                ))}
+              </div>
             </div>
           </div>
         )}

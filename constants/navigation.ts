@@ -1,4 +1,5 @@
-import type { NavItem, CommandItem, DockItem } from "@/types";
+import type { NavItem, CommandItem } from "@/types";
+import { profile, mailto } from "@/constants/profile";
 
 export const navItems: NavItem[] = [
   { label: "About", href: "#about" },
@@ -15,17 +16,11 @@ export const commandItems: CommandItem[] = [
   { id: "work", label: "Selected Work", action: "#work", category: "navigation", shortcut: "W" },
   { id: "tech", label: "Tech Stack", action: "#tech-stack", category: "navigation" },
   { id: "contact", label: "Contact", action: "#contact", category: "navigation", shortcut: "C" },
-  { id: "github", label: "GitHub", description: "View source code", action: "https://github.com/abdelrahman-samy-dev", category: "external" },
-  { id: "linkedin", label: "LinkedIn", description: "Professional profile", action: "https://linkedin.com/in/abdelrahman-samy-dev", category: "external" },
-  { id: "resume", label: "Resume", description: "Download CV (PDF)", action: "/resume.pdf", category: "external" },
+  { id: "github", label: "GitHub", description: "View source code", action: profile.github, category: "external" },
+  { id: "linkedin", label: "LinkedIn", description: "Professional profile", action: profile.linkedin, category: "external" },
+  { id: "resume", label: "CV", description: "View CV (PDF)", action: profile.cv.visual, category: "external" },
+  { id: "resume-ats", label: "CV (ATS)", description: "Plain-text CV for application systems", action: profile.cv.ats, category: "external" },
   { id: "gloofloo", label: "GlooFloo", description: "Live product — gloofloo.com", action: "https://gloofloo.com", category: "external" },
-  { id: "email", label: "Send Email", description: "abdelrahman.samy.dev@outlook.com", action: "mailto:abdelrahman.samy.dev@outlook.com", category: "action" },
-];
-
-export const dockItems: DockItem[] = [
-  { label: "GitHub", href: "https://github.com/abdelrahman-samy-dev", icon: "FolderGit2", external: true },
-  { label: "LinkedIn", href: "https://linkedin.com/in/abdelrahman-samy-dev", icon: "Link", external: true },
-  { label: "Resume", href: "/resume.pdf", icon: "FileText", external: true },
-  { label: "Email", href: "mailto:abdelrahman.samy.dev@outlook.com", icon: "Mail", external: false },
-  { label: "Projects", href: "#work", icon: "FolderOpen", external: false },
+  { id: "rawaylo", label: "Rawaylo", description: "Live product — rawaylo.com", action: "https://rawaylo.com", category: "external" },
+  { id: "email", label: "Send Email", description: profile.email, action: mailto, category: "action" },
 ];

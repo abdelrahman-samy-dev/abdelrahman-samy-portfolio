@@ -8,10 +8,12 @@ import { useLocale } from "@/providers/LocaleProvider";
 
 export const TOTAL_FRAMES = 96;
 const FRAME_PATH = "/images/hero/frame-";
-/** Keep the intro on screen long enough for the mark to finish drawing */
-const MIN_SHOW_MS = 1100;
-/** Reveal the page after this long even if some frames are still downloading */
-const MAX_WAIT_MS = 2600;
+/** Keep the intro on screen just long enough for the mark to draw */
+const MIN_SHOW_MS = 800;
+/** Lift the intro after this long even if the first frame hasn't arrived */
+const MAX_WAIT_MS = 1600;
+/** Frames downloaded at once after the page has loaded */
+const BATCH = 6;
 const EASE = [0.76, 0, 0.24, 1] as const;
 
 /** The intro plays once per visit — coming back to the home page skips it */
@@ -47,55 +49,76 @@ export default function Preloader({ children }: { children: React.ReactNode }) {
   const [images, setImages] = useState<HTMLImageElement[]>([]);
   const firstFrameReady = useRef(false);
 
-  // Load the hero frames. The intro lifts when every frame is in (but not before
-  // MIN_SHOW_MS), or at MAX_WAIT_MS once the first frame is ready — the rest keep
-  // streaming in and CinematicScroll draws the nearest frame that has arrived.
+  // The intro lifts as soon as the first hero frame is in (but not before
+  // MIN_SHOW_MS, and never later than MAX_WAIT_MS). The page underneath is
+  // already rendered, so nothing waits on the full sequence: the remaining
+  // frames download in small batches after the window has loaded, and
+  // CinematicScroll draws the nearest frame that has arrived.
   useEffect(() => {
     const start = performance.now();
-    let loadedCount = 0;
-    let allIn = false;
-    let timedOut = false;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Phones get every second frame: half the bytes, same motion
+    const step = window.innerWidth < 768 ? 2 : 1;
+    const indexes = Array.from({ length: Math.ceil(TOTAL_FRAMES / step) }, (_, i) => i * step + 1);
+
     let revealTimer: ReturnType<typeof setTimeout> | undefined;
-    const reveal = () => {
+    const reveal = (immediate = false) => {
       clearTimeout(revealTimer);
-      const wait = Math.max(0, MIN_SHOW_MS - (performance.now() - start));
+      const wait = immediate ? 0 : Math.max(0, MIN_SHOW_MS - (performance.now() - start));
       revealTimer = setTimeout(() => {
         introPlayed = true;
         setLoaded(true);
       }, wait);
     };
 
-    const frames: HTMLImageElement[] = [];
-    const onSettled = (index: number) => {
-      loadedCount++;
-      setProgress(Math.floor((loadedCount / TOTAL_FRAMES) * 100));
-      if (index === 0) {
-        firstFrameReady.current = true;
-        setImages(frames);
-        if (timedOut) reveal();
-      }
-      if (loadedCount === TOTAL_FRAMES && !allIn) {
-        allIn = true;
-        reveal();
-      }
-    };
-
-    for (let i = 1; i <= TOTAL_FRAMES; i++) {
+    const frames = indexes.map(() => {
       const img = new Image();
       img.decoding = "async";
-      img.onload = img.onerror = () => onSettled(i - 1);
-      img.src = getFrameSrc(i);
-      frames.push(img);
-    }
+      return img;
+    });
+    let settled = 0;
+    const onSettled = () => {
+      settled++;
+      setProgress(Math.floor((settled / frames.length) * 100));
+    };
 
-    const maxWait = setTimeout(() => {
-      timedOut = true;
-      if (firstFrameReady.current) reveal();
-    }, MAX_WAIT_MS);
+    // First frame now, at high priority
+    frames[0].fetchPriority = "high";
+    frames[0].onload = frames[0].onerror = () => {
+      onSettled();
+      firstFrameReady.current = true;
+      setImages(frames);
+      reveal(reducedMotion);
+    };
+    frames[0].src = getFrameSrc(indexes[0]);
+
+    // The rest after load, a few at a time, so they never compete with the page itself
+    let next = 1;
+    let cancelled = false;
+    const pump = () => {
+      if (cancelled || next >= frames.length) return;
+      const img = frames[next];
+      const src = getFrameSrc(indexes[next]);
+      next++;
+      img.onload = img.onerror = () => {
+        onSettled();
+        pump();
+      };
+      img.src = src;
+    };
+    const startRest = () => {
+      for (let i = 0; i < BATCH; i++) pump();
+    };
+    if (document.readyState === "complete") startRest();
+    else window.addEventListener("load", startRest, { once: true });
+
+    const maxWait = setTimeout(() => reveal(true), reducedMotion ? 0 : MAX_WAIT_MS);
 
     return () => {
+      cancelled = true;
       clearTimeout(maxWait);
       clearTimeout(revealTimer);
+      window.removeEventListener("load", startRest);
     };
   }, []);
 
@@ -190,15 +213,13 @@ export default function Preloader({ children }: { children: React.ReactNode }) {
         )}
       </AnimatePresence>
 
-      {/* Lock scroll during loading */}
+      {/* Lock scroll during the (short) intro */}
       {!revealed && !loaded && (
         <style>{`html, body { overflow: hidden !important; height: 100vh !important; }`}</style>
       )}
 
-      {/* Page content — always mounted so it starts hydrating */}
-      <div style={{ visibility: loaded || revealed ? "visible" : "hidden" }}>
-        {children}
-      </div>
+      {/* Page content — rendered and painted under the intro, so it's ready the moment the curtain lifts */}
+      {children}
     </PreloaderContext.Provider>
   );
 }

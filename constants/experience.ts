@@ -8,15 +8,16 @@ export const experiences: Experience[] = [
     companyUrl: "https://yamamasoftware.com",
     startDate: "Aug 2026",
     description:
-      "Full-stack and mobile engineer on GlooFloo, an AI-powered project and portfolio management SaaS, and on Rawaylo, an AI customer-service platform in development.",
+      "Full-stack and mobile engineer on two live products: GlooFloo, an AI-powered planning and project management SaaS, and Rawaylo, an AI call center for restaurants.",
     achievements: [
-      "Deliver GlooFloo features end to end across the React / TanStack web app and the Hono + PostgreSQL API — database migrations, API, UI and tests — in a team with QA and DevOps",
-      "Built AI assistant features: tool calling over the product's own actions, Claude model routing by task, a monthly AI budget guard, and credit charging based on the actions actually performed",
-      "Building the GlooFloo Flutter app for iOS and Android with web feature parity: Kanban board, Gantt timeline, calendar, files, AI assistant, push notifications and store subscriptions",
-      "Work on Rawaylo (in development): conversation inbox with human handoff, workspace billing, a voice-agent pipeline for Egyptian Arabic, and a restaurant edition built on Odoo",
-      "Support the product and sales side: requirement documents, the client presentation deck and demo videos, pricing and cost analysis, and technical input for enterprise proposals",
+      "Deliver GlooFloo features end to end across the React / TanStack web app and the Hono + PostgreSQL API — database migrations, multi-tenant row-level security, UI and tests — through reviewed pull requests, staging and production releases",
+      "Built GlooFloo's AI layer: an assistant that runs product actions as tools, Claude model routing by task with a monthly budget guard, credit charging based on the actions actually performed, and an MCP server (OAuth 2.1) for AI clients such as Claude and ChatGPT",
+      "Led the November 2026 redesign of the GlooFloo web app: new design system and typography, Arabic/English-only localisation, accessible custom controls and a lazy-loaded 3D hero — shipped to production",
+      "Building the GlooFloo Flutter app for iOS and Android toward its v1.0 store release: Kanban board, Gantt timeline, calendar, files, AI assistant, push notifications and store subscriptions",
+      "Rawaylo (live since November 2026): backend, dashboard and voice pipeline of an AI call center for restaurants — chat and browser-call ordering with Soniox and Claude, an inbox with human handoff, credit-ledger billing, and the restaurant system on Odoo",
+      "Support the product and business side: requirement documents, pricing and cost analysis, client decks and product videos, and technical input for enterprise proposals",
     ],
-    techStack: ["TypeScript", "React 19", "TanStack", "Hono", "PostgreSQL", "Flutter", "Claude API", "Docker"],
+    techStack: ["TypeScript", "React 19", "TanStack", "Hono", "PostgreSQL", "Flutter", "Claude API", "MCP", "Odoo"],
   },
   {
     id: "vclasses",

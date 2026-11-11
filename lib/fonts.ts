@@ -12,10 +12,12 @@ export const spaceGrotesk = Space_Grotesk({
   display: "swap",
 });
 
+// Only small labels use the mono face — don't spend a preload on it
 export const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains-mono",
   display: "swap",
+  preload: false,
 });
 
 /* Arabic — Lalezar for display headings (one heavy weight), Alexandria for text, UI and numbers */

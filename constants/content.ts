@@ -18,10 +18,13 @@ function spaceWaw<T>(value: T): T {
   return value;
 }
 
-/** Projects with their text in the requested language (English is the source) */
+/** Projects shown on the site (archived records stay in the repo only) */
+export const publishedProjects = projects.filter((p) => p.status !== "archived");
+
+/** Published projects with their text in the requested language (English is the source) */
 export function getProjects(locale: Locale): Project[] {
-  if (locale === "en") return projects;
-  return projects.map((p) => ({ ...p, ...spaceWaw(projectsAr[p.slug]), thumbnail: p.thumbnailAr ?? p.thumbnail }));
+  if (locale === "en") return publishedProjects;
+  return publishedProjects.map((p) => ({ ...p, ...spaceWaw(projectsAr[p.slug]), thumbnail: p.thumbnailAr ?? p.thumbnail }));
 }
 
 export function getProject(locale: Locale, slug: string): Project | undefined {
