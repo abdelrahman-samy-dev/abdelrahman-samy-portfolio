@@ -157,7 +157,7 @@ export default function EngineeringPrinciples() {
 
               <div>
                 <h3
-                  className="text-[1.7rem] md:text-4xl font-display font-bold tracking-tight mb-4 whitespace-pre-line leading-[1.1]"
+                  className="ar-marks text-[1.7rem] md:text-4xl font-display font-bold tracking-tight mb-4 whitespace-pre-line leading-[1.1]"
                   style={{ color: "var(--text-primary)" }}
                 >
                   {item.title}
@@ -204,7 +204,7 @@ export default function EngineeringPrinciples() {
 
         {/* Outro panel (desktop) */}
         <div className="hidden md:flex shrink-0 flex-col justify-center px-24 w-[40vw] min-w-[320px] h-svh">
-          <h2 className="text-3xl md:text-5xl font-display font-bold tracking-tighter leading-[1.1] mb-6" style={{ color: "var(--text-tertiary)" }}>
+          <h2 className="ar-marks text-3xl md:text-5xl font-display font-bold tracking-tighter leading-[1.1] mb-6" style={{ color: "var(--text-tertiary)" }}>
             {p.outro[0]}<br />
             <span style={{ color: "var(--text-primary)" }}>{p.outro[1]}</span>
           </h2>

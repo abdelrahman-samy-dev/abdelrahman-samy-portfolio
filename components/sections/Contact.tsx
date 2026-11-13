@@ -89,7 +89,7 @@ export default function Contact() {
             initial={{ y: 16, opacity: 0 }}
             animate={inView ? { y: 0, opacity: 1 } : {}}
             transition={{ duration: 0.6, delay: 0.05 }}
-            className="text-5xl md:text-7xl font-display font-bold tracking-tighter leading-[0.95] mb-6"
+            className="ar-marks text-5xl md:text-7xl font-display font-bold tracking-tighter leading-[0.95] mb-6"
             style={{ color: "var(--text-primary)" }}
           >
             {c.title[0]}

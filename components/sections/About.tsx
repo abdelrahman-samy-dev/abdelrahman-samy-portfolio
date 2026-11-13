@@ -34,7 +34,7 @@ export default function About() {
       <div ref={containerRef} className="max-w-[1400px] mx-auto px-6 md:px-12 pt-28 md:pt-48 pb-16 md:pb-20">
         <SectionHeader title={a.eyebrow} />
 
-        <h2 className="text-[1.75rem] sm:text-4xl md:text-5xl lg:text-[5rem] font-display font-bold tracking-tighter leading-[1.15] md:leading-[1.05] flex flex-wrap gap-x-2 md:gap-x-4 lg:gap-x-5 gap-y-1 md:gap-y-3">
+        <h2 className="ar-marks text-[1.75rem] sm:text-4xl md:text-5xl lg:text-[5rem] font-display font-bold tracking-tighter leading-[1.15] md:leading-[1.05] flex flex-wrap gap-x-2 md:gap-x-4 lg:gap-x-5 gap-y-1 md:gap-y-3">
           {words.map((word, i) => {
             const start = i / words.length;
             const end = start + 1 / words.length;
@@ -49,11 +49,11 @@ export default function About() {
 
       {/* Asymmetric Stats Bento */}
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 mt-8 md:mt-24">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
 
           {/* Technical Arsenal Box */}
           <div
-            className="md:col-span-7 lg:col-span-8 rounded-[var(--radius-xl)] p-8 md:p-14 flex flex-col justify-between group relative overflow-hidden transition-colors duration-700"
+            className="lg:col-span-8 rounded-[var(--radius-xl)] p-8 md:p-12 flex flex-col justify-center group relative overflow-hidden transition-colors duration-700"
             style={{
               background: "linear-gradient(180deg, rgb(var(--ink-rgb) / 0.03) 0%, rgb(var(--ink-rgb) / 0.01) 100%)",
               border: "1px solid var(--border-subtle)",
@@ -68,7 +68,7 @@ export default function About() {
             {/* Subtle Hover Glow — follows the pointer */}
             <div className="absolute -inset-px opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" style={{ background: "radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgb(var(--accent-rgb) / 0.1), transparent 40%)" }} />
 
-            <p className="text-[10px] font-mono tracking-widest uppercase mb-12 md:mb-16 relative z-10 flex items-center gap-3" style={{ color: "var(--text-tertiary)" }}>
+            <p className="text-[10px] font-mono tracking-widest uppercase mb-8 md:mb-10 relative z-10 flex items-center gap-3" style={{ color: "var(--text-tertiary)" }}>
               <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--accent)" }} />
               {a.competencies}
             </p>
@@ -93,18 +93,18 @@ export default function About() {
           </div>
 
           {/* Vertical Stats Column */}
-          <div className="md:col-span-5 lg:col-span-4 grid grid-cols-2 md:grid-cols-1 gap-4 md:gap-6">
+          <div className="lg:col-span-4 grid grid-cols-2 lg:grid-cols-1 gap-4 md:gap-6">
 
             {/* Experience Card */}
             <div
-              className="rounded-[var(--radius-xl)] p-6 md:p-10 flex flex-col justify-center relative overflow-hidden group"
+              className="rounded-[var(--radius-xl)] p-6 md:p-8 flex flex-col justify-center relative overflow-hidden group"
               style={cardStyle}
             >
               <div className="absolute top-0 end-0 p-6 md:p-8 opacity-20 hidden sm:block">
                 <div className="w-16 h-16 rounded-full border border-dashed animate-spin-slow" style={{ borderColor: "var(--text-tertiary)" }} />
               </div>
               <p className="text-[10px] font-mono tracking-widest uppercase mb-4" style={{ color: "var(--text-tertiary)" }}>{a.yearsLabel}</p>
-              <div className="font-display font-bold tracking-tighter flex items-start" style={{ fontSize: "clamp(3rem, 8vw, 6rem)", lineHeight: 0.9, color: "var(--accent)" }}>
+              <div className="font-display font-bold tracking-tighter flex items-start" style={{ fontSize: "clamp(2.75rem, 6vw, 4.75rem)", lineHeight: 0.9, color: "var(--accent)" }}>
                 2023
               </div>
               <p className="text-xs md:text-sm font-medium tracking-wide mt-4" style={{ color: "var(--text-secondary)" }}>{a.years}</p>
@@ -112,11 +112,11 @@ export default function About() {
 
             {/* Products Card */}
             <div
-              className="rounded-[var(--radius-xl)] p-6 md:p-10 flex flex-col justify-center relative overflow-hidden"
+              className="rounded-[var(--radius-xl)] p-6 md:p-8 flex flex-col justify-center relative overflow-hidden"
               style={cardStyle}
             >
               <p className="text-[10px] font-mono tracking-widest uppercase mb-4" style={{ color: "var(--text-tertiary)" }}>{a.productsLabel}</p>
-              <div className="font-display font-bold tracking-tighter flex items-start" style={{ fontSize: "clamp(3rem, 8vw, 6rem)", lineHeight: 0.9, color: "var(--text-primary)" }}>
+              <div className="font-display font-bold tracking-tighter flex items-start" style={{ fontSize: "clamp(2.75rem, 6vw, 4.75rem)", lineHeight: 0.9, color: "var(--text-primary)" }}>
                 02
               </div>
               <p className="text-xs md:text-sm font-medium tracking-wide mt-4" style={{ color: "var(--text-secondary)" }}>{a.products}</p>

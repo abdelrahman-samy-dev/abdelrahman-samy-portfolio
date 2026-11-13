@@ -140,6 +140,9 @@ html[lang="ar"] .font-display {
   font-synthesis: none;
   line-height: 1.12 !important;
 }
+/* Headings whose Arabic copy carries tashkeel (tanween, kasra, shadda): the marks sit
+   high above the letters and touch the line above unless the leading opens up */
+html[lang="ar"] .font-display.ar-marks { line-height: 1.38 !important; }
 html[lang="ar"] body { line-height: 1.8; font-weight: 300; }
 html[lang="ar"] :is(p, li) { font-weight: 300; }
 html[lang="ar"] :is(b, strong, h3, .font-medium, .font-semibold) { font-weight: 500; }
