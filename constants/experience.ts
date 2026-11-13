@@ -3,12 +3,12 @@ import type { Experience } from "@/types";
 export const experiences: Experience[] = [
   {
     id: "yamama",
-    role: "Software Engineer",
+    role: "Software Developer",
     company: "Yamama Software",
     companyUrl: "https://yamamasoftware.com",
     startDate: "Aug 2026",
     description:
-      "Full-stack and mobile engineer on two live products: GlooFloo, an AI-powered planning and project management SaaS, and Rawaylo, an AI call center for restaurants.",
+      "Full-stack and mobile developer on two live products: GlooFloo, an AI-powered planning and project management SaaS, and Rawaylo, an AI call center for restaurants.",
     achievements: [
       "Deliver GlooFloo features end to end across the React / TanStack web app and the Hono + PostgreSQL API — database migrations, multi-tenant row-level security, UI and tests — through reviewed pull requests, staging and production releases",
       "Built GlooFloo's AI layer: an assistant that runs product actions as tools, Claude model routing by task with a monthly budget guard, credit charging based on the actions actually performed, and an MCP server (OAuth 2.1) for AI clients such as Claude and ChatGPT",
@@ -32,7 +32,7 @@ export const experiences: Experience[] = [
     achievements: [
       "Built a multi-tenant educational platform with Next.js 15 App Router, TypeScript, and Tailwind CSS v4",
       "Engineered ISR cache invalidation, multi-landing-page switching system, and CSS custom property theming from Figma designs",
-      "Integrated TanStack Query 5 + Redux for the API data layer; reached 90+ Lighthouse scores and ~40% faster load times",
+      "Integrated TanStack Query 5 + Redux for the API data layer",
       "Implemented full Arabic/English bilingual support with next-intl and RTL layout handling",
       "Worked with the backend team on REST API contracts; daily standups, sprint planning, and code reviews",
     ],
@@ -40,20 +40,18 @@ export const experiences: Experience[] = [
   },
   {
     id: "freelance",
-    role: "Freelance Frontend Developer",
+    role: "Freelance Frontend Developer (part-time)",
     company: "Self-Employed",
     location: "Remote",
     startDate: "Sep 2023",
     endDate: "Sep 2025",
     description:
-      "Delivered 10+ client projects — e-commerce platforms, 3D web experiences, landing pages — with most clients coming back for more work.",
+      "Part-time client work alongside other roles: landing pages and small web apps with React and Next.js.",
     achievements: [
-      "Delivered 10+ production projects including e-commerce platforms, 3D web experiences, and landing pages",
-      "Around 80% of clients came back with repeat work",
-      "Built full-stack Next.js solutions with authentication (NextAuth.js, JWT, OAuth), payments (Stripe, Paymob), and CI/CD on Vercel",
-      "Implemented responsive, pixel-perfect UIs from Figma designs with a performance-first approach",
+      "Built landing pages and small web apps for selected clients with React and Next.js, deployed on Vercel and Netlify",
+      "Turned Figma designs into responsive interfaces",
     ],
-    techStack: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Supabase", "Stripe"],
+    techStack: ["React", "Next.js", "Vercel", "Netlify"],
   },
   {
     id: "intern",

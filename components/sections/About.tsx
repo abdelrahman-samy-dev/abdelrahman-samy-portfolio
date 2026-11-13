@@ -105,7 +105,7 @@ export default function About() {
               </div>
               <p className="text-[10px] font-mono tracking-widest uppercase mb-4" style={{ color: "var(--text-tertiary)" }}>{a.yearsLabel}</p>
               <div className="font-display font-bold tracking-tighter flex items-start" style={{ fontSize: "clamp(3rem, 8vw, 6rem)", lineHeight: 0.9, color: "var(--accent)" }}>
-                03<span className="text-2xl md:text-5xl mt-1 md:mt-2 ms-1">+</span>
+                2023
               </div>
               <p className="text-xs md:text-sm font-medium tracking-wide mt-4" style={{ color: "var(--text-secondary)" }}>{a.years}</p>
             </div>
